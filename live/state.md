@@ -3,15 +3,15 @@
 *Updated at the end of each session. Read this FIRST on startup.*
 
 ## Last Session
-- **Date:** 2026-04-15
-- **Summary:** EA command centre setup complete. Onboarding finished. All intel files populated.
+- **Date:** 2026-04-22
+- **Summary:** Built client communication handler — blueprint and email template live.
 
 ## Open Tasks
 - Define Q2 goals collaboratively
-- Build invoice template
-- Build audit template
+- Build invoice template (due 2026-05-15)
+- Build audit template (due 2026-05-15)
 - Close first paying clients
-- Launch website / landing page before 2026-05-15
+- Launch website / landing page (due 2026-05-15)
 
 ## Current Priorities
 1. Finding clients
@@ -23,3 +23,8 @@
 |---------|--------|----------|
 | HR Consultant Automation | Active | — |
 | degiabdo Launch | Active | 2026-05-15 |
+
+## Skills Built
+| Skill | Blueprint | Equipment |
+|-------|-----------|-----------|
+| Client communication handler | blueprints/client-communication.md | None |
