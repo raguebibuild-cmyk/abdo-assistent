@@ -14,13 +14,22 @@
 ## Daily Tools
 | Tool | Status |
 |------|--------|
-| Gmail | Aspirational — no live credentials yet |
-| Google Calendar | Aspirational — no live credentials yet |
-| Google Sheets | Aspirational — no live credentials yet |
-| Google Docs | Aspirational — no live credentials yet |
-| CRM | Aspirational — no live credentials yet |
-| Perplexity | Aspirational — no live credentials yet |
-| LinkedIn | Aspirational — no live credentials yet |
+| Gmail | Live — MCP connected |
+| Google Drive | Live — MCP connected |
+| Google Calendar | Aspirational — not connected yet |
+| Google Sheets | Aspirational — not connected yet |
+| Google Docs | Aspirational — not connected yet |
+| CRM | Aspirational — not connected yet |
+| Perplexity | Aspirational — not connected yet |
+| LinkedIn | Aspirational — not connected yet |
 
 ## MCP Servers Connected
-None yet.
+| Server | Tools available |
+|--------|----------------|
+| Gmail | create_draft, search_threads, list_drafts, labels |
+| Google Drive | create_file, search_files, read_file, list_recent |
+
+## Google Drive Structure
+| Folder | Purpose |
+|--------|---------|
+| Client Propositions | Google Docs proposals, one per client |

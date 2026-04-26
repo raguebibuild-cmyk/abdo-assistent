@@ -3,8 +3,8 @@
 *Updated at the end of each session. Read this FIRST on startup.*
 
 ## Last Session
-- **Date:** 2026-04-22
-- **Summary:** Built client communication handler — blueprint and email template live.
+- **Date:** 2026-04-26
+- **Summary:** Gmail + Google Drive connected. Created "Client Propositions" Drive folder. Built client proposition blueprint and template.
 
 ## Open Tasks
 - Define Q2 goals collaboratively
@@ -28,3 +28,4 @@
 | Skill | Blueprint | Equipment |
 |-------|-----------|-----------|
 | Client communication handler | blueprints/client-communication.md | None |
+| Client proposition | blueprints/client-proposition.md | None (Google Drive + Gmail MCP) |
