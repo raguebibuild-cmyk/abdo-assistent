@@ -17,8 +17,8 @@
 | Gmail | Live — MCP connected |
 | Google Drive | Live — MCP connected |
 | Google Calendar | Aspirational — not connected yet |
-| Google Sheets | Aspirational — not connected yet |
-| Google Docs | Aspirational — not connected yet |
+| Google Sheets | Live — read via Google Drive MCP, write via Zapier (update_row) |
+| Google Docs | Live — read/create via Google Drive MCP |
 | CRM | Aspirational — not connected yet |
 | Perplexity | Aspirational — not connected yet |
 | LinkedIn | Aspirational — not connected yet |
@@ -27,7 +27,8 @@
 | Server | Tools available |
 |--------|----------------|
 | Gmail | create_draft, search_threads, list_drafts, labels |
-| Google Drive | create_file, search_files, read_file, list_recent |
+| Google Drive | create_file, search_files, read_file, list_recent — also reads Google Sheets and Docs |
+| Zapier — Google Sheets | update_row (write) — authenticated 2026-04-29 |
 
 ## Google Drive Structure
 | Folder | Purpose |

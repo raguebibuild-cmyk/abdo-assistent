@@ -3,8 +3,8 @@
 *Updated at the end of each session. Read this FIRST on startup.*
 
 ## Last Session
-- **Date:** 2026-04-26
-- **Summary:** Gmail + Google Drive connected. Created "Client Propositions" Drive folder. Built client proposition blueprint and template.
+- **Date:** 2026-04-29
+- **Summary:** Built Blueprints 1 & 2. Blueprint 1 (Monday Pipeline Summary): Blueprint + Equipment + scheduled remote agent. Blueprint 2 (Lead Update + Follow-up): Blueprint created, email drafted to James Foster / Foster & Marsh Legal (Gmail draft ID: r2797925930385919945), sheet row updated via Zapier. Enabled Zapier Google Sheets write (update_row) — authenticated, working. Google Sheets now fully live: read via Drive MCP, write via Zapier. Column names corrected across all files.
 
 ## Open Tasks
 - Define Q2 goals collaboratively
@@ -29,3 +29,6 @@
 |-------|-----------|-----------|
 | Client communication handler | blueprints/client-communication.md | None |
 | Client proposition | blueprints/client-proposition.md | None (Google Drive + Gmail MCP) |
+| Monday pipeline summary | blueprints/monday-morning-pipeline.md | equipment/pipeline_summary.py |
+| Lead update + follow-up email | blueprints/lead-update-followup.md | None (Google Drive + Gmail MCP) |
+| Client proposal document | blueprints/client-proposal-document.md | None (Google Drive MCP — reads 3 sources, creates Doc) |
