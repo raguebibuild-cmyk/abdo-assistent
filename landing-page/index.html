@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>degiabdo — Your team's time back, starting this week</title>
+  <meta name="description" content="degiabdo builds agentic workflows for Moroccan SMEs. Stop losing hours to admin and manual work. Book your free 30-minute audit.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+
+  <!-- inline SVG noise filter -->
+  <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feBlend in="SourceGraphic" mode="overlay" result="blend"/>
+      <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </svg>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:  #152D1F;
+      --sage:    #1E4A2E;
+      --fern:    #2E7D4F;
+      --leaf:    #5AAF76;
+      --mint:    #A8D4B5;
+      --mist:    #E8F4EC;
+      --cream:   #F5F3EE;
+      --white:   #FFFFFF;
+      --ink:     #0E1510;
+      --slate:   #354A3C;
+      --muted:   #637268;
+      --border:  #D0E2D6;
+
+      --font-d: 'Syne', sans-serif;
+      --font-b: 'DM Sans', sans-serif;
+
+      --w: 1160px;
+      --px: clamp(20px, 5vw, 64px);
+      --py: clamp(80px, 10vw, 140px);
+      --ease: cubic-bezier(.4, 0, .2, 1);
+      --spring: cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: var(--font-b);
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── utils ── */
+    .wrap { max-width: var(--w); margin: 0 auto; padding: 0 var(--px); }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--fern);
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-b); font-weight: 600; font-size: 15px;
+      letter-spacing: .01em; padding: 14px 28px; border-radius: 100px;
+      border: none; cursor: pointer; text-decoration: none;
+      transition: transform .25s var(--spring), box-shadow .25s var(--ease), background .25s var(--ease);
+      white-space: nowrap;
+    }
+    .btn-green {
+      background: var(--fern); color: var(--white);
+    }
+    .btn-green:hover {
+      background: var(--sage); transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(21,45,31,.28);
+    }
+    .btn-outline {
+      background: transparent; color: var(--forest);
+      border: 1.5px solid rgba(21,45,31,.3);
+    }
+    .btn-outline:hover { background: var(--mist); border-color: var(--fern); }
+    .btn-white {
+      background: var(--white); color: var(--forest);
+    }
+    .btn-white:hover {
+      background: var(--mist); transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.15);
+    }
+
+    /* scroll reveal */
+    .sr { opacity: 0; transform: translateY(32px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .sr.in { opacity: 1; transform: none; }
+    .sr-delay-1 { transition-delay: .1s; }
+    .sr-delay-2 { transition-delay: .2s; }
+    .sr-delay-3 { transition-delay: .3s; }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; inset: 0 0 auto; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px var(--px);
+      transition: padding .3s var(--ease), background .3s var(--ease), box-shadow .3s var(--ease);
+    }
+    #nav.stuck {
+      background: rgba(245,243,238,.95);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      padding: 14px var(--px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-d); font-size: 21px; font-weight: 800;
+      letter-spacing: -.04em; color: var(--forest); text-decoration: none;
+    }
+    .nav-logo span { color: var(--fern); }
+    #nav .btn { font-size: 14px; padding: 11px 22px; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh; display: flex; align-items: center;
+      padding: calc(var(--py) + 56px) var(--px) var(--py);
+      background: var(--cream);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 90% 20%, rgba(168,212,181,.45) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 5% 80%,  rgba(168,212,181,.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      max-width: var(--w); margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 420px;
+      align-items: center; gap: 60px;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--mist); border: 1px solid var(--mint);
+      color: var(--sage); font-size: 12px; font-weight: 600;
+      letter-spacing: .07em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 100px; margin-bottom: 28px;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--fern); flex-shrink: 0;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform: scale(1); }
+      50%      { opacity:.5; transform: scale(.7); }
+    }
+
+    .hero h1 {
+      font-family: var(--font-d);
+      font-size: clamp(48px, 6.5vw, 80px);
+      font-weight: 800; line-height: 1.04; letter-spacing: -.04em;
+      color: var(--ink); margin-bottom: 24px;
+    }
+    .hero h1 .accent {
+      color: var(--fern); position: relative; display: inline-block;
+    }
+    .hero h1 .accent::after {
+      content: '';
+      position: absolute; left: 0; bottom: 0; width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--mint), transparent);
+      border-radius: 2px;
+    }
+
+    .hero-sub {
+      font-size: clamp(17px, 2vw, 19px); font-weight: 300;
+      color: var(--slate); line-height: 1.65; max-width: 500px; margin-bottom: 44px;
+    }
+
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-ctas .btn { font-size: 16px; padding: 16px 32px; }
+
+    /* dashboard card */
+    .hero-card {
+      background: var(--forest);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 32px 80px rgba(21,45,31,.35);
+      position: relative; overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 90% 0%, rgba(90,175,118,.15), transparent);
+      pointer-events: none;
+    }
+    .hc-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 28px;
+    }
+    .hc-title {
+      font-family: var(--font-b); font-size: 12px; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: rgba(255,255,255,.45); margin-bottom: 4px;
+    }
+    .hc-total {
+      font-family: var(--font-d); font-size: 36px; font-weight: 800;
+      letter-spacing: -.03em; color: var(--white); line-height: 1;
+    }
+    .hc-total span { color: var(--leaf); }
+    .hc-badge {
+      background: rgba(90,175,118,.15); border: 1px solid rgba(90,175,118,.25);
+      color: var(--leaf); font-size: 12px; font-weight: 600;
+      padding: 4px 10px; border-radius: 100px;
+    }
+    .hc-bars { display: flex; flex-direction: column; gap: 14px; }
+    .hc-bar-row { display: flex; align-items: center; gap: 12px; }
+    .hc-bar-label {
+      font-size: 13px; color: rgba(255,255,255,.55);
+      width: 90px; flex-shrink: 0;
+    }
+    .hc-bar-track {
+      flex: 1; height: 6px; background: rgba(255,255,255,.08);
+      border-radius: 3px; overflow: hidden;
+    }
+    .hc-bar-fill {
+      height: 100%; background: linear-gradient(90deg, var(--fern), var(--leaf));
+      border-radius: 3px; width: 0;
+      transition: width 1.2s var(--ease);
+    }
+    .hc-bar-val {
+      font-family: var(--font-d); font-size: 13px; font-weight: 700;
+      color: var(--white); width: 30px; text-align: right;
+    }
+    .hc-footer {
+      margin-top: 24px; padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      font-size: 12px; color: rgba(255,255,255,.3);
+    }
+
+    /* ── MARQUEE ── */
+    .marquee {
+      background: var(--forest); padding: 18px 0;
+      overflow: hidden; position: relative;
+    }
+    .marquee-track {
+      display: flex; white-space: nowrap;
+      animation: scroll 28s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 16px;
+      padding: 0 16px;
+      font-family: var(--font-d); font-size: 12px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: rgba(90,175,118,.7);
+    }
+    .marquee-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--fern); flex-shrink: 0;
+    }
+    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── PAIN ── */
+    .pain {
+      background: var(--forest);
+      padding: var(--py) var(--px);
+      position: relative;
+    }
+    .pain .eyebrow { color: var(--leaf); }
+    .pain-hd {
+      font-family: var(--font-d);
+      font-size: clamp(34px, 4.5vw, 54px);
+      font-weight: 700; letter-spacing: -.03em;
+      color: var(--white); line-height: 1.12;
+      max-width: 560px; margin-bottom: 60px;
+    }
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 2px;
+    }
+    .pain-card {
+      padding: 44px 36px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 16px;
+      position: relative; overflow: hidden;
+      transition: background .3s var(--ease), border-color .3s var(--ease), transform .3s var(--spring);
+    }
+    .pain-card:hover {
+      background: rgba(255,255,255,.06);
+      border-color: rgba(90,175,118,.2);
+      transform: translateY(-3px);
+    }
+    .pain-card::before {
+      content: attr(data-n);
+      position: absolute; top: -20px; right: 24px;
+      font-family: var(--font-d); font-size: 120px; font-weight: 800;
+      color: rgba(255,255,255,.03); line-height: 1;
+      pointer-events: none; user-select: none;
+    }
+    .pain-q {
+      font-family: var(--font-d); font-size: 38px; font-weight: 800;
+      color: rgba(90,175,118,.25); line-height: .8;
+      margin-bottom: 12px;
+    }
+    .pain-card h3 {
+      font-family: var(--font-d); font-size: 19px; font-weight: 700;
+      color: var(--white); line-height: 1.3; margin-bottom: 14px;
+    }
+    .pain-card p {
+      font-size: 15px; color: rgba(255,255,255,.48); line-height: 1.72;
+    }
+
+    /* ── SOLUTION ── */
+    .solution {
+      background: var(--white);
+      padding: var(--py) var(--px);
+    }
+    .sec-hd {
+      max-width: 560px; margin-bottom: 64px;
+    }
+    .sec-hd h2 {
+      font-family: var(--font-d);
+      font-size: clamp(34px, 4.5vw, 54px);
+      font-weight: 700; letter-spacing: -.03em;
+      color: var(--ink); line-height: 1.12; margin-bottom: 14px;
+    }
+    .sec-hd p {
+      font-size: clamp(16px, 1.8vw, 18px); font-weight: 300;
+      color: var(--muted); line-height: 1.65;
+    }
+    .svc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .svc-card {
+      border-radius: 20px;
+      padding: 44px 36px;
+      background: var(--cream);
+      position: relative; overflow: hidden;
+      transition: transform .3s var(--spring), box-shadow .3s var(--ease);
+      /* gradient border trick */
+      border: 1.5px solid transparent;
+      background-clip: padding-box;
+    }
+    .svc-card::before {
+      content: '';
+      position: absolute; inset: -1.5px;
+      border-radius: 21px;
+      background: linear-gradient(160deg, var(--fern), transparent 60%);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity .4s var(--ease);
+    }
+    .svc-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(21,45,31,.1); }
+    .svc-card:hover::before { opacity: 1; }
+
+    .svc-num {
+      font-family: var(--font-d); font-size: 11px; font-weight: 800;
+      letter-spacing: .12em; color: var(--mint); margin-bottom: 20px;
+    }
+    .svc-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--mist); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .svc-icon svg { width: 22px; height: 22px; stroke: var(--fern); fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .svc-card h3 {
+      font-family: var(--font-d); font-size: 22px; font-weight: 700;
+      letter-spacing: -.02em; color: var(--ink); margin-bottom: 12px;
+    }
+    .svc-card p { font-size: 15px; color: var(--muted); line-height: 1.72; }
+
+    /* ── HOW ── */
+    .hiw {
+      background: var(--cream);
+      padding: var(--py) var(--px);
+    }
+    .hiw .sec-hd { margin-bottom: 88px; }
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    .steps-row::before {
+      content: '';
+      position: absolute;
+      top: 38px; left: 17%; right: 17%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+    }
+    .step-col {
+      padding: 0 28px 0; position: relative;
+    }
+    .step-num {
+      width: 76px; height: 76px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-d); font-size: 26px; font-weight: 800;
+      color: var(--white); margin-bottom: 28px;
+      position: relative; z-index: 1;
+      transition: transform .3s var(--spring);
+    }
+    .step-col:hover .step-num { transform: scale(1.1) rotate(-3deg); }
+    .step-col:nth-child(1) .step-num { background: var(--forest); }
+    .step-col:nth-child(2) .step-num { background: var(--sage); }
+    .step-col:nth-child(3) .step-num { background: var(--fern); }
+
+    .step-bg-num {
+      position: absolute; top: -36px; left: 16px;
+      font-family: var(--font-d); font-size: 160px; font-weight: 800;
+      color: rgba(21,45,31,.04); line-height: 1;
+      pointer-events: none; user-select: none;
+    }
+
+    .step-col h3 {
+      font-family: var(--font-d); font-size: 21px; font-weight: 700;
+      letter-spacing: -.02em; color: var(--ink); margin-bottom: 12px;
+    }
+    .step-col p { font-size: 15px; color: var(--muted); line-height: 1.72; }
+
+    /* ── CRED ── */
+    .cred {
+      background: var(--forest);
+      padding: 80px var(--px);
+    }
+    .cred-row {
+      max-width: var(--w); margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .cred-col {
+      text-align: center; padding: 0 40px;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .cred-col:last-child { border-right: none; }
+    .cred-val {
+      font-family: var(--font-d); font-size: clamp(38px, 5vw, 60px);
+      font-weight: 800; letter-spacing: -.04em;
+      color: var(--white); line-height: 1; margin-bottom: 12px;
+    }
+    .cred-val .hi { color: var(--leaf); }
+    .cred-label { font-size: 14px; color: rgba(255,255,255,.45); line-height: 1.55; }
+
+    /* ── LEAD ── */
+    .lead { background: var(--white); padding: var(--py) var(--px); }
+    .lead-split {
+      max-width: var(--w); margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-radius: 24px; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(21,45,31,.14);
+    }
+    .lead-left {
+      background: var(--forest);
+      padding: clamp(40px, 6vw, 72px);
+      display: flex; flex-direction: column;
+      justify-content: space-between; gap: 48px;
+      position: relative; overflow: hidden;
+    }
+    .lead-left::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 10% 90%, rgba(90,175,118,.12), transparent);
+      pointer-events: none;
+    }
+    .lead-left .eyebrow { color: var(--leaf); }
+    .lead-left h2 {
+      font-family: var(--font-d);
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 700; letter-spacing: -.03em;
+      color: var(--white); line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .lead-left p {
+      font-size: 16px; font-weight: 300;
+      color: rgba(255,255,255,.6); line-height: 1.7;
+    }
+    .lead-checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .lead-checklist li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 15px; color: rgba(255,255,255,.7); line-height: 1.5;
+    }
+    .lead-checklist li::before {
+      content: '';
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(90,175,118,.2); border: 1px solid rgba(90,175,118,.3);
+      flex-shrink: 0; margin-top: 2px;
+      display: flex; align-items: center; justify-content: center;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%235AAF76' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 6l3 3 5-5'/%3E%3C/svg%3E");
+      background-size: 10px; background-position: center; background-repeat: no-repeat;
+    }
+    .lead-note {
+      font-size: 12px; color: rgba(255,255,255,.3); margin-top: 8px;
+    }
+
+    .lead-right {
+      background: var(--cream);
+      padding: clamp(40px, 6vw, 72px);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .lead-right h3 {
+      font-family: var(--font-d); font-size: 22px; font-weight: 700;
+      letter-spacing: -.02em; color: var(--ink); margin-bottom: 28px;
+    }
+
+    form { display: flex; flex-direction: column; gap: 14px; }
+    .field { position: relative; }
+    .field input,
+    .field textarea {
+      font-family: var(--font-b); font-size: 15px; color: var(--ink);
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 14px 18px; width: 100%;
+      outline: none; resize: none;
+      transition: border-color .25s var(--ease), box-shadow .25s var(--ease);
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+    .field input:focus, .field textarea:focus {
+      border-color: var(--fern);
+      box-shadow: 0 0 0 3px rgba(46,125,79,.1);
+    }
+    .field textarea { min-height: 90px; }
+
+    .btn-submit {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--forest); color: var(--white);
+      font-family: var(--font-b); font-size: 16px; font-weight: 600;
+      padding: 18px 32px; border-radius: 100px; border: none; cursor: pointer;
+      width: 100%; margin-top: 4px;
+      transition: background .25s var(--ease), transform .25s var(--spring), box-shadow .25s var(--ease);
+    }
+    .btn-submit:hover {
+      background: var(--sage); transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(21,45,31,.25);
+    }
+    .form-reassure {
+      text-align: center; font-size: 13px; color: var(--muted); margin-top: 4px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      padding: 64px var(--px) 48px;
+    }
+    .foot-row {
+      max-width: var(--w); margin: 0 auto;
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 32px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .foot-logo {
+      font-family: var(--font-d); font-size: 20px; font-weight: 800;
+      letter-spacing: -.04em; color: var(--white); text-decoration: none;
+    }
+    .foot-logo span { color: var(--leaf); }
+    .foot-tag { font-size: 14px; color: rgba(255,255,255,.3); margin-top: 6px; }
+    .foot-email {
+      display: block; color: var(--leaf); font-size: 15px; font-weight: 500;
+      text-decoration: none; margin-bottom: 8px;
+      transition: color .2s;
+    }
+    .foot-email:hover { color: var(--mint); }
+    .foot-copy {
+      max-width: var(--w); margin: 28px auto 0;
+      font-size: 13px; color: rgba(255,255,255,.2);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-grid   { grid-template-columns: 1fr; }
+      .hero-card   { display: none; }
+      .steps-row   { grid-template-columns: 1fr; gap: 48px; }
+      .steps-row::before { display: none; }
+      .step-bg-num { display: none; }
+      .cred-row    { grid-template-columns: 1fr; gap: 32px; }
+      .cred-col    { border-right: none; border-bottom: 1px solid rgba(255,255,255,.08); padding-bottom: 32px; }
+      .cred-col:last-child { border-bottom: none; }
+      .lead-split  { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .pain-grid { grid-template-columns: 1fr; }
+      .svc-grid  { grid-template-columns: 1fr; }
+      .foot-row  { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="/" class="nav-logo">degi<span>abdo</span></a>
+  <a href="#audit" class="btn btn-green">Book Free Audit</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+
+    <div class="hero-copy">
+      <div class="hero-badge">For SMEs in Morocco</div>
+      <h1>Your team is losing<br>hours every day to work<br>that <span class="accent">shouldn't need a human.</span></h1>
+      <p class="hero-sub">degiabdo designs agentic workflows that run your repetitive operations automatically. Built for Moroccan SMEs. Up and running in under two weeks.</p>
+      <div class="hero-ctas">
+        <a href="#audit" class="btn btn-green">Book My Free Audit &rarr;</a>
+        <a href="#how"   class="btn btn-outline">See How It Works</a>
+      </div>
+    </div>
+
+    <!-- CSS dashboard card -->
+    <div class="hero-card" id="hc">
+      <div class="hc-header">
+        <div>
+          <div class="hc-title">Hours recovered / week</div>
+          <div class="hc-total"><span id="hc-total">0</span> hrs</div>
+        </div>
+        <div class="hc-badge">&#8593; saved</div>
+      </div>
+      <div class="hc-bars">
+        <div class="hc-bar-row">
+          <span class="hc-bar-label">Admin tasks</span>
+          <div class="hc-bar-track"><div class="hc-bar-fill" data-w="72"></div></div>
+          <span class="hc-bar-val">5h</span>
+        </div>
+        <div class="hc-bar-row">
+          <span class="hc-bar-label">Follow-ups</span>
+          <div class="hc-bar-track"><div class="hc-bar-fill" data-w="55"></div></div>
+          <span class="hc-bar-val">4h</span>
+        </div>
+        <div class="hc-bar-row">
+          <span class="hc-bar-label">Data entry</span>
+          <div class="hc-bar-track"><div class="hc-bar-fill" data-w="88"></div></div>
+          <span class="hc-bar-val">6h</span>
+        </div>
+        <div class="hc-bar-row">
+          <span class="hc-bar-label">Reporting</span>
+          <div class="hc-bar-track"><div class="hc-bar-fill" data-w="40"></div></div>
+          <span class="hc-bar-val">3h</span>
+        </div>
+      </div>
+      <div class="hc-footer">Typical SME &bull; degiabdo workflow audit</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="mq">
+    <span class="marquee-item">AI-Powered Admin<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Smart CRM<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Content &amp; SEO<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Email Automation<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Lead Follow-Up<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Calendar Management<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Report Generation<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Client Onboarding<span class="marquee-dot"></span></span>
+    <span class="marquee-item">AI-Powered Admin<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Smart CRM<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Content &amp; SEO<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Email Automation<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Lead Follow-Up<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Calendar Management<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Report Generation<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Client Onboarding<span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- PAIN -->
+<section class="pain">
+  <div class="wrap">
+    <span class="eyebrow sr">The real cost</span>
+    <h2 class="pain-hd sr">Does any of this<br>sound like your week?</h2>
+    <div class="pain-grid">
+
+      <div class="pain-card sr sr-delay-1" data-n="01">
+        <div class="pain-q">&ldquo;</div>
+        <h3>Manual data entry that never ends</h3>
+        <p>Every morning you open the same spreadsheet, copy the same columns, send the same emails. It's not skilled work — it's hours you won't get back.</p>
+      </div>
+
+      <div class="pain-card sr sr-delay-2" data-n="02">
+        <div class="pain-q">&ldquo;</div>
+        <h3>Your team is too busy to do their actual jobs</h3>
+        <p>The people you hired to grow your business are drowning in follow-ups, copy-paste, and admin. Their real work gets pushed to tomorrow. Again.</p>
+      </div>
+
+      <div class="pain-card sr sr-delay-3" data-n="03">
+        <div class="pain-q">&ldquo;</div>
+        <h3>Automation looks complex from the outside</h3>
+        <p>You know there's a better way. But figuring out the tools, the setup, the maintenance — you don't have time. That's exactly what we handle.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="solution" id="services">
+  <div class="wrap">
+    <div class="sec-hd sr">
+      <span class="eyebrow">What we do</span>
+      <h2>We take the manual<br>work off your plate.</h2>
+      <p>Three core workflows that eliminate the biggest time drains in most SMEs. Built around your operations, not a template.</p>
+    </div>
+    <div class="svc-grid">
+
+      <div class="svc-card sr sr-delay-1">
+        <p class="svc-num">01</p>
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <h3>AI-Powered Admin</h3>
+        <p>Emails, scheduling, and follow-ups handled by an AI that works around the clock. Your inbox becomes a tool, not a burden.</p>
+      </div>
+
+      <div class="svc-card sr sr-delay-2">
+        <p class="svc-num">02</p>
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+        </div>
+        <h3>Smart CRM &amp; Pipeline</h3>
+        <p>Every client and lead tracked automatically. No manual updates, no missed follow-ups. You always know exactly where things stand.</p>
+      </div>
+
+      <div class="svc-card sr sr-delay-3">
+        <p class="svc-num">03</p>
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>Content &amp; SEO Engine</h3>
+        <p>Blog posts researched, written, and published on schedule. Build your online presence without adding a single item to your to-do list.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hiw" id="how">
+  <div class="wrap">
+    <div class="sec-hd sr">
+      <span class="eyebrow">The process</span>
+      <h2>Three steps.<br>Two weeks. Measurable results.</h2>
+      <p>No technical setup on your end. No long onboarding calls. Just a workflow that runs.</p>
+    </div>
+    <div class="steps-row">
+
+      <div class="step-col sr sr-delay-1">
+        <div class="step-bg-num">01</div>
+        <div class="step-num">1</div>
+        <h3>Free Audit</h3>
+        <p>30 minutes. We map your three biggest time drains. You leave with a clear picture of what automation could recover — and exactly what it would cost.</p>
+      </div>
+
+      <div class="step-col sr sr-delay-2">
+        <div class="step-bg-num">02</div>
+        <div class="step-num">2</div>
+        <h3>Custom Build</h3>
+        <p>We design and deliver a workflow built around your exact operations. You review at every stage. We refine until it's right. It goes live fast.</p>
+      </div>
+
+      <div class="step-col sr sr-delay-3">
+        <div class="step-bg-num">03</div>
+        <div class="step-num">3</div>
+        <h3>Time Back</h3>
+        <p>Real hours recovered every week, from day one. The system runs. You focus on growing the business. That's the deal.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CREDIBILITY -->
+<section class="cred">
+  <div class="cred-row">
+    <div class="cred-col sr">
+      <div class="cred-val"><span class="hi" data-count="30">0</span><span class="hi"> min</span></div>
+      <div class="cred-label">To map your biggest time drains<br>Free. No pitch.</div>
+    </div>
+    <div class="cred-col sr sr-delay-1">
+      <div class="cred-val">&lt;<span class="hi" data-count="2">0</span><span> wks</span></div>
+      <div class="cred-label">From first conversation<br>to live workflow</div>
+    </div>
+    <div class="cred-col sr sr-delay-2">
+      <div class="cred-val"><span class="hi" data-count="0">0</span><span> code</span></div>
+      <div class="cred-label">No technical skills needed<br>from your team</div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD CAPTURE -->
+<section class="lead" id="audit">
+  <div class="lead-split sr">
+
+    <div class="lead-left">
+      <div>
+        <span class="eyebrow">Free audit</span>
+        <h2>Find out what's costing you the most time.</h2>
+        <p>Book a free 30-minute audit. We'll identify your top three time drains and tell you exactly what automation could recover. No pitch. No obligation.</p>
+      </div>
+      <ul class="lead-checklist">
+        <li>Map your top three time drains</li>
+        <li>Identify what can be automated</li>
+        <li>Get a clear picture of the ROI</li>
+        <li>No sales call. No commitment.</li>
+      </ul>
+    </div>
+
+    <div class="lead-right">
+      <h3>Book your free audit</h3>
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="field">
+          <input type="text"  name="name"  placeholder="Your name"  required>
+        </div>
+        <div class="field">
+          <input type="email" name="email" placeholder="Your email" required>
+        </div>
+        <div class="field">
+          <textarea name="message" placeholder="What's your biggest time drain right now?"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Book My Free Audit &rarr;</button>
+        <p class="form-reassure">No commitment. We reply within 24 hours.</p>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-row">
+    <div>
+      <a href="/" class="foot-logo">degi<span>abdo</span></a>
+      <p class="foot-tag">Automate the work. Keep the humans.</p>
+    </div>
+    <div>
+      <a href="mailto:raguebi.mba@gmail.com" class="foot-email">raguebi.mba@gmail.com</a>
+      <a href="#audit" class="btn btn-white" style="font-size:14px;padding:11px 22px;">Book Free Audit</a>
+    </div>
+  </div>
+  <p class="foot-copy">&copy; 2026 degiabdo. All rights reserved.</p>
+</footer>
+
+<script>
+  /* sticky nav */
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('stuck', scrollY > 48), { passive: true });
+
+  /* scroll reveal */
+  const sr = new IntersectionObserver((entries) => {
+    let d = 0;
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      setTimeout(() => e.target.classList.add('in'), d);
+      d += 80;
+      sr.unobserve(e.target);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+  document.querySelectorAll('.sr').forEach(el => sr.observe(el));
+
+  /* animated counter */
+  function counter(el, target, dur) {
+    const start = performance.now();
+    const tick = t => {
+      const p = Math.min((t - start) / dur, 1);
+      const v = Math.round((1 - Math.pow(1 - p, 3)) * target);
+      el.textContent = v;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  const credObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.querySelectorAll('[data-count]').forEach(el => {
+        counter(el, +el.dataset.count, 1400);
+      });
+      /* hero card total */
+      const hcTotal = document.getElementById('hc-total');
+      if (hcTotal) counter(hcTotal, 18, 1600);
+      credObs.unobserve(e.target);
+    });
+  }, { threshold: 0.3 });
+  document.querySelector('.cred') && credObs.observe(document.querySelector('.cred'));
+
+  /* hero card bars — animate on load */
+  addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.hc-bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.w + '%';
+      });
+      counter(document.getElementById('hc-total'), 18, 1600);
+    }, 400);
+  });
+</script>
+
+</body>
+</html>
