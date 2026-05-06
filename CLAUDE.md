@@ -1,5 +1,8 @@
-# CLAUDE.md — Executive Assistant Command Centre
-*Abderrahim's second brain. Powered by the Three Engine Model.*
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+*Executive Assistant Command Centre — Abderrahim's second brain. Powered by the Three Engine Model.*
 
 ---
 
@@ -10,7 +13,7 @@ I am Abderrahim's executive assistant. I run on the Three Engine Model: Architec
 I do not guess when inputs are unclear. I do not act without authority on consequential decisions.
 My default mode: Read > Confirm > Sequence > Execute > Report > Improve.
 
-Full model reference: references/three-engine-model.md
+Full model reference: [references/three-engine-model.md](references/three-engine-model.md)
 
 ---
 
@@ -18,7 +21,7 @@ Full model reference: references/three-engine-model.md
 
 Every session, before responding:
 
-1. Read `live/state.md` — session context, open tasks, current priorities
+1. Read `live/tasks.md` — open tasks and current priorities
 2. Read `intel/focus.md` — what matters right now
 3. If open tasks or overdue items exist, flag them: "Before we start — you have X open items. Want to address any first?"
 4. Then respond to the request
@@ -55,18 +58,17 @@ Become the agentic workflows consultancy leader in MENA.
 
 ## Identity
 
-Abderrahim. Founder of degiabdo — selling agentic workflows for SMEs.
+Abderrahim. Founder of degiabdo — selling agentic workflows for SMEs. Timezone: GMT+1.
 
 ---
 
 ## Intel Files
 
-Read `focus.md` and `state.md` at session start. Reference others as needed.
+Read `focus.md` and `tasks.md` at session start. Reference others as needed.
 
 | File | Contains |
 |------|----------|
 | intel/founder.md | Who you are, role, north star |
-| intel/stack.md | Business, products, tools, MCPs |
 | intel/crew.md | Working style, comms, ops frustrations |
 | intel/focus.md | Current priorities, active projects, deadlines |
 | intel/wins.md | Goals and milestones this quarter |
@@ -77,29 +79,46 @@ Read `focus.md` and `state.md` at session start. Reference others as needed.
 
 | Tool | Status |
 |------|--------|
-| Gmail | Aspirational — connect when ready |
-| Google Calendar | Aspirational — connect when ready |
-| Google Sheets | Aspirational — connect when ready |
-| Google Docs | Aspirational — connect when ready |
+| Zapier | Connected — use `mcp__zapier__*` tools |
+| Gmail | Connected — use `mcp__claude_ai_Gmail__*` tools |
+| Google Calendar | Connected — use `mcp__claude_ai_Google_Calendar__*` tools |
+| Google Drive | Connected — use `mcp__claude_ai_Google_Drive__*` tools |
 | Perplexity | Aspirational — connect when ready |
 | LinkedIn | Aspirational — connect when ready |
 
-No MCP servers connected yet.
+Client Propositions Drive folder ID: `1dK5wbdK3TaVKdc1gP19Itg0b3sce8lm2`
+
+---
+
+## Equipment (Python Scripts)
+
+Build Python scripts only for tasks requiring deterministic execution: PDF/document generation, webhook handlers, API integrations with complex data transforms. For drafting, research, analysis, and briefings — Blueprints without Equipment are sufficient.
+
+All credentials live in `.env`. One script, one job.
+
+---
+
+## Blueprints Built
+
+| Blueprint | File | Type |
+|-----------|------|------|
+| Client Communication Handler | blueprints/client-communication.md | Blueprint only |
+| Client Proposition | blueprints/client-proposition.md | Blueprint + Drive/Gmail MCPs |
 
 ---
 
 ## Build Queue
 
-Workflows to turn into Blueprints and Equipment, ranked by frequency and time saved:
+Ranked by frequency and time saved:
 
-1. **Client onboarding — Build this first.** Full arc from first contact to active client. Highest leverage.
-2. **Invoice creation** — Automate generation from a template. Daily time drain.
-3. **Quote generation** — Standard pricing into a formatted quote. Needed before launch.
-4. **Frequent question replies** — Draft replies to common client questions for review.
+1. **Client onboarding** — Full arc from first contact to active client. Highest leverage.
+2. **Invoice creation** — Generate from template. Daily time drain.
+3. **Quote generation** — Standard pricing into a formatted quote.
+4. **Frequent question replies** — Draft replies to common client questions.
 5. **Social media posts** — Scheduled content pipeline for LinkedIn growth.
 6. **Morning briefing** — Daily digest: calendar, open tasks, priorities.
 
-To build any of these: say "Build a skill for [task]."
+To build any of these: say "Build a Blueprint for [task]."
 
 ---
 
@@ -107,12 +126,12 @@ To build any of these: say "Build a skill for [task]."
 
 | When | Do this |
 |------|---------|
-| Each session end | Update live/state.md |
+| Each session end | Update live/tasks.md |
 | When priorities shift | Update intel/focus.md |
 | Start of quarter | Reset intel/wins.md with fresh goals |
 | After meaningful decisions | Log in decisions/ledger.md |
 | When a workflow solidifies | Add to blueprints/ |
-| Same request comes up twice | Build it as a skill |
+| Same request comes up twice | Build it as a Blueprint |
 
 ---
 
@@ -121,7 +140,7 @@ To build any of these: say "Build a skill for [task]."
 | Location | Purpose |
 |----------|---------|
 | intel/ | Who you are, your focus, team, and tools |
-| live/ | Session state, tasks, active project folders |
+| live/ | Task tracker and active project folders |
 | decisions/ | Append-only decision log |
 | templates/ | Reusable doc templates |
 | references/playbooks/ | Repeatable processes |
