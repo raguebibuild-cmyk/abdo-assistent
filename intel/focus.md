@@ -1,11 +1,11 @@
 # Focus — Q2 2026
 
-*Last updated: 2026-04-15*
+*Last updated: 2026-05-08*
 
 ## Top Priorities Right Now
-1. Finding clients
-2. Building visual presence (website / landing page)
-3. Working out pricing
+1. Deliver Cotton & Stitch and Najim Travel audits — $1,900 blocked
+2. Execute 12-day sprint to 2026-05-15 launch
+3. Building visual presence (website / landing page)
 4. Creating custom templates for clients (invoice, audit)
 
 ## Hard Deadlines

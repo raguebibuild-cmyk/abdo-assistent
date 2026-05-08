@@ -21,7 +21,7 @@ Full model reference: [references/three-engine-model.md](references/three-engine
 
 Every session, before responding:
 
-1. Read `live/tasks.md` — open tasks and current priorities
+1. Read `live/state.md` — open tasks, pipeline, current priorities, and skills built
 2. Read `intel/focus.md` — what matters right now
 3. If open tasks or overdue items exist, flag them: "Before we start — you have X open items. Want to address any first?"
 4. Then respond to the request
@@ -64,7 +64,7 @@ Abderrahim. Founder of degiabdo — selling agentic workflows for SMEs. Timezone
 
 ## Intel Files
 
-Read `focus.md` and `tasks.md` at session start. Reference others as needed.
+Read `focus.md` and `state.md` at session start. Reference others as needed.
 
 | File | Contains |
 |------|----------|
@@ -81,7 +81,7 @@ Read `focus.md` and `tasks.md` at session start. Reference others as needed.
 |------|--------|
 | Zapier | Connected — use `mcp__zapier__*` tools |
 | Gmail | Connected — use `mcp__claude_ai_Gmail__*` tools |
-| Google Calendar | Connected — use `mcp__claude_ai_Google_Calendar__*` tools |
+| Google Calendar | Aspirational — connect when ready |
 | Google Drive | Connected — use `mcp__claude_ai_Google_Drive__*` tools |
 | Perplexity | Aspirational — connect when ready |
 | LinkedIn | Aspirational — connect when ready |
@@ -104,6 +104,10 @@ All credentials live in `.env`. One script, one job.
 |-----------|------|------|
 | Client Communication Handler | blueprints/client-communication.md | Blueprint only |
 | Client Proposition | blueprints/client-proposition.md | Blueprint + Drive/Gmail MCPs |
+| Monday Morning Pipeline | blueprints/monday-morning-pipeline.md | Blueprint + Equipment (pipeline_summary.py) |
+| Lead Update + Follow-up | blueprints/lead-update-followup.md | Blueprint + Drive/Gmail MCPs |
+| Client Proposal Document | blueprints/client-proposal-document.md | Blueprint + Drive MCP |
+| Prioritisation | blueprints/prioritisation.md | Blueprint only |
 
 ---
 
@@ -126,7 +130,7 @@ To build any of these: say "Build a Blueprint for [task]."
 
 | When | Do this |
 |------|---------|
-| Each session end | Update live/tasks.md |
+| Each session end | Update live/state.md |
 | When priorities shift | Update intel/focus.md |
 | Start of quarter | Reset intel/wins.md with fresh goals |
 | After meaningful decisions | Log in decisions/ledger.md |
