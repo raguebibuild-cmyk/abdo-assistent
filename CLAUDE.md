@@ -108,6 +108,7 @@ All credentials live in `.env`. One script, one job.
 | Lead Update + Follow-up | blueprints/lead-update-followup.md | Blueprint + Drive/Gmail MCPs |
 | Client Proposal Document | blueprints/client-proposal-document.md | Blueprint + Drive MCP |
 | Prioritisation | blueprints/prioritisation.md | Blueprint only |
+| Research Subagent | blueprints/research-subagent.md | Blueprint + Drive/Gmail MCPs + pdf/customer-research skills |
 
 ---
 

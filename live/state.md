@@ -3,8 +3,8 @@
 *Updated at the end of each session. Read this FIRST on startup.*
 
 ## Last Session
-- **Date:** 2026-05-03
-- **Summary:** Full scan of Gmail, Calendar, and Pipeline. 27 actionable items written to Tasks List sheet (ID: 1_ROm--diNjIv98fecCNICeUfqVXjTRCEs0rP2JRZmNo). 5 new inbound leads from Gmail (Sami/Cedar Wealth, Karim/DeltaLogix, Reem/Hala Ventures, Construction firm Casablanca, Nadia/Kontrast upsell). 6 calls booked this week on Calendar. 2 pipeline audits overdue (Najim Travel, Cotton & Stitch). CRM quotes still pending (laboratoiremvcd, biovagoabdorag).
+- **Date:** 2026-05-08
+- **Summary:** Updated Daily Project Audit routine (trig_01TaQgMUDcfA4LTnPrCdnhBJ) to include a "Recent GitHub Changes" section (git log last 24h) in the report. Attempted to add GitHub Issue creation as a third delivery channel — blocked by 403 (Claude GitHub App token lacks issues:write). Gmail draft + Google Drive doc delivery confirmed working. GitHub issue creation requires a fine-grained PAT with issues:write on abdo-assistent — pending from Abderrahim.
 
 ## Open Tasks
 - Reply to Sami — Cedar Wealth Advisory (due 2026-05-05) **[URGENT]**
@@ -53,3 +53,4 @@
 | Monday pipeline summary | blueprints/monday-morning-pipeline.md | equipment/pipeline_summary.py |
 | Lead update + follow-up email | blueprints/lead-update-followup.md | None (Google Drive + Gmail MCP) |
 | Client proposal document | blueprints/client-proposal-document.md | None (Google Drive MCP — reads 3 sources, creates Doc) |
+| Research Subagent | blueprints/research-subagent.md | None (WebSearch + pdf skill + customer-research skill + Drive/Gmail MCPs) |
