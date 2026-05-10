@@ -66,6 +66,8 @@ Target: 8–12 raw sources.
 
 ### Step 2 — Synthesize Top 5 Findings
 
+If the orchestrator has invoked the `customer-research` skill, use its structured output (themes, confidence levels, verbatim quotes) as the primary synthesis input. Otherwise, synthesize directly from raw sources collected in Step 1.
+
 From all sources, identify the 5 most important findings using this ranking:
 1. Relevance to AI Agentic workflows
 2. Actionability for SMEs
@@ -139,7 +141,13 @@ Invoke the `pdf` skill with the markdown content from Step 3.
 
 Output: `.tmp/research-brief-[SLUG]-[DATE].pdf`
 
-If the `pdf` skill fails: proceed with the markdown file and note the fallback in the final summary.
+If the `pdf` skill fails (e.g. no shell execution in agent context): save the markdown, note the failure in the summary, and instruct the orchestrator to run the local generator:
+
+```
+python equipment\gen_pdf_final.py
+```
+
+This script reads `.tmp/research-brief-[SLUG]-[DATE].md` and writes the PDF to `.tmp/research-brief-[SLUG]-[DATE].pdf` using ReportLab. The orchestrator then uploads the PDF to Drive in a follow-up step.
 
 ---
 
@@ -218,7 +226,7 @@ Highest-confidence finding: [one sentence]
 |---------|---------|
 | WebSearch returns < 3 results | Proceed with what was found. Note gap in report. |
 | Fewer than 5 findings | List what was found. Pad with MEDIUM/LOW confidence findings rather than fabricating. |
-| `pdf` skill fails | Upload the `.md` file to Drive as `text/plain` instead. Note fallback in summary. |
+| `pdf` skill fails | Note failure in summary. Instruct orchestrator to run `python equipment\gen_pdf_final.py` locally, then upload the resulting `.pdf` to Drive. |
 | Drive upload fails | Report local markdown content inline. Note upload failed. |
 | Gmail draft fails | Print full email body in response for manual copy-paste. |
 | Any MCP unavailable | Stop at that step. Report exactly what was completed and what failed. |
