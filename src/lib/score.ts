@@ -43,7 +43,8 @@ export async function extractAndScore(raw: RawLead): Promise<ScoredLead | null> 
       messages: [{ role: "user", content: buildPrompt(raw.url, raw.content) }],
     });
 
-    const text = response.content.find((b: { type: string; text?: string }) => b.type === "text")?.text ?? "";
+    const textBlock = response.content.find((b) => b.type === "text");
+    const text = textBlock?.type === "text" ? textBlock.text : "";
 
     let parsed: Record<string, unknown>;
     try {
