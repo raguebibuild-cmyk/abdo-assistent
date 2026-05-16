@@ -2,13 +2,22 @@
   "name": "abdo-assistent",
   "version": "1.0.0",
   "scripts": {
-    "dev": "trigger dev",
-    "deploy": "trigger deploy"
+    "dev": "npx trigger.dev dev",
+    "deploy": "npx trigger.dev deploy",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "auth:sheets": "npx ts-node scripts/get-refresh-token.ts"
   },
   "dependencies": {
-    "@trigger.dev/sdk": "4.4.6"
+    "@anthropic-ai/sdk": "^0.96.0",
+    "@mendable/firecrawl-js": "^4.23.0",
+    "@trigger.dev/sdk": "4.4.6",
+    "googleapis": "^171.4.0"
   },
   "devDependencies": {
-    "@trigger.dev/build": "4.4.6"
+    "@trigger.dev/build": "4.4.6",
+    "@types/node": "^25.8.0",
+    "ts-node": "^10.9.2",
+    "vitest": "^4.1.6"
   }
 }
