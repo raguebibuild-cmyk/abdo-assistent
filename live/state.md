@@ -3,8 +3,8 @@
 *Updated at the end of each session. Read this FIRST on startup.*
 
 ## Last Session
-- **Date:** 2026-05-10
-- **Summary:** Ran antivirus market trends research via direct WebSearch (no subagent). Updated research-brief.md search queries from "2025 2026" to "2026 2027". Confirmed research-brief agent is available but not yet tested end-to-end.
+- **Date:** 2026-05-15
+- **Summary:** Fixed superpowers plugin install failure (EPERM on rename). Root cause: target directory `C:\Users\admin\.claude\plugins\cache\claude-plugins-official\superpowers\` didn't exist. Created the path manually and moved the temp folder into place as `5.1.0`. Plugin should load on next Claude Code restart.
 
 ## Open Tasks
 - Reply to Sami — Cedar Wealth Advisory (due 2026-05-05) **[URGENT]**
