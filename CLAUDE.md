@@ -90,6 +90,49 @@ Client Propositions Drive folder ID: `1dK5wbdK3TaVKdc1gP19Itg0b3sce8lm2`
 
 ---
 
+## Development Commands
+
+```bash
+npm run dev          # start Trigger.dev local worker (connects to cloud dashboard)
+npm test             # run all Vitest tests
+npm test src/lib/score.test.ts  # run a single test file
+npm run test:watch   # watch mode
+npm run deploy       # deploy tasks to Trigger.dev cloud
+npx tsc --noEmit     # TypeScript type check
+```
+
+---
+
+## Code Architecture (src/)
+
+The `src/` directory is the Trigger.dev automation layer — separate from the Blueprint/Equipment assistant layer above.
+
+**Pipeline:** `firecrawl.ts` → `score.ts` → `sheets.ts`, orchestrated by the scheduled task.
+
+| File | Role |
+|------|------|
+| `src/lib/types.ts` | Shared interfaces: `RawLead` (raw scraped result), `ScoredLead` (Claude-extracted + scored) |
+| `src/lib/firecrawl.ts` | Runs 3 search queries via Firecrawl, returns `RawLead[]`. Uses `@mendable/firecrawl-js` v4. |
+| `src/lib/score.ts` | Calls Claude Haiku per lead, extracts structured JSON, returns `ScoredLead \| null` |
+| `src/lib/sheets.ts` | Appends qualified leads to Google Sheet using OAuth2 refresh token |
+| `src/trigger/lead-gen-dubai-hr.ts` | `schedules.task` — fires daily at 6:00 UTC, orchestrates the full pipeline, filters `score >= 5` |
+
+**Firecrawl v4 API shape** (v4.23.0 differs from v3 — do not revert):
+- Import: `import FirecrawlApp from "@mendable/firecrawl-js"` (default export)
+- `search()` returns `{ data: [...] }` with items having `.url` and `.markdown`
+- Pass `scrapeOptions: { formats: ["markdown"] }` to get markdown content
+
+**Vitest constructor mock pattern** — required whenever mocking a class instantiated with `new`:
+```typescript
+const mockMethod = vi.hoisted(() => vi.fn());
+vi.mock("some-module", () => ({
+  default: class { myMethod = mockMethod; constructor(..._args: unknown[]) {} },
+}));
+```
+`vi.fn().mockImplementation(() => obj)` does NOT work for `new` calls. Applies to Anthropic SDK, `google.auth.OAuth2`, and any SDK constructor.
+
+---
+
 ## Equipment (Python Scripts)
 
 Build Python scripts only for tasks requiring deterministic execution: PDF/document generation, webhook handlers, API integrations with complex data transforms. For drafting, research, analysis, and briefings — Blueprints without Equipment are sufficient.
@@ -109,19 +152,23 @@ All credentials live in `.env`. One script, one job.
 | Client Proposal Document | blueprints/client-proposal-document.md | Blueprint + Drive MCP |
 | Prioritisation | blueprints/prioritisation.md | Blueprint only |
 | Research Subagent | blueprints/research-subagent.md | Blueprint + Drive/Gmail MCPs + pdf/customer-research skills |
+| Trend Research & Analysis | blueprints/trend-research-analysis.md | Blueprint + Equipment (trend_report_pdf.py) + Drive MCP |
+| Social Media Repurposing | blueprints/social-media-repurposing.md | Blueprint + Equipment (social_media_pdf.py) + Drive MCP |
+| Client Onboarding | blueprints/client-onboarding.md | Blueprint + Drive/Gmail/Zapier Sheets MCPs |
+| Invoice Creation | blueprints/invoice-creation.md | Blueprint + Drive/Gmail MCPs |
+| Quote Generation | blueprints/quote-generation.md | Blueprint + Drive/Gmail MCPs |
+| Morning Briefing | blueprints/morning-briefing.md | Blueprint + Calendar/Gmail/Drive MCPs |
 
 ---
 
 ## Build Queue
 
-Ranked by frequency and time saved:
+Remaining items ranked by frequency and time saved:
 
-1. **Client onboarding** — Full arc from first contact to active client. Highest leverage.
-2. **Invoice creation** — Generate from template. Daily time drain.
-3. **Quote generation** — Standard pricing into a formatted quote.
-4. **Frequent question replies** — Draft replies to common client questions.
-5. **Social media posts** — Scheduled content pipeline for LinkedIn growth.
-6. **Morning briefing** — Daily digest: calendar, open tasks, priorities.
+1. **Frequent question replies** — Draft replies to common client questions.
+2. **Client closeout** — Offboard a finished client, archive files, request testimonial.
+
+*(Client onboarding, invoice creation, quote generation, social media, and morning briefing are built — see Blueprints Built above.)*
 
 To build any of these: say "Build a Blueprint for [task]."
 
@@ -144,8 +191,21 @@ To build any of these: say "Build a Blueprint for [task]."
 
 | Location | Purpose |
 |----------|---------|
+| src/ | Trigger.dev automation code (TypeScript) — see Code Architecture above |
 | intel/ | Who you are, your focus, team, and tools |
 | live/ | Task tracker and active project folders |
+| clients/{name}/ | One folder per client |
+| clients/{name}/audits/ | Delivered audit documents |
+| clients/{name}/quotes/ | Quote documents |
+| clients/{name}/invoices/ | Invoices |
+| clients/{name}/proposals/ | Proposition / proposal docs |
+| clients/{name}/emails/ | Email drafts (outbound) |
+| clients/{name}/notes/ | Discovery call notes, session briefs |
+| leads/raw/ | Direct output from automated pipeline |
+| leads/qualified/ | Leads with score >= 5, ready for outreach |
+| leads/contacted/ | Leads that have been reached out to |
+| content/linkedin/ | LinkedIn posts |
+| content/calendar/ | Content calendar |
 | decisions/ | Append-only decision log |
 | templates/ | Reusable doc templates |
 | references/playbooks/ | Repeatable processes |

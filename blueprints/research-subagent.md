@@ -14,7 +14,7 @@
 | DATE | Auto (today YYYY-MM-DD) | Derived at runtime |
 | SLUG | Auto (TOPIC → lowercase-hyphenated) | e.g. `ai-agentic` |
 | OUTPUT_FOLDER_ID | `1dK5wbdK3TaVKdc1gP19Itg0b3sce8lm2` | Google Drive folder for output |
-| TO_EMAIL | `raguebi.mba@gmail.com` | Always Abderrahim |
+| TO_EMAIL | `raguebi.build@gmail.com` | Always Abderrahim |
 
 ---
 

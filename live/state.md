@@ -3,36 +3,61 @@
 *Updated at the end of each session. Read this FIRST on startup.*
 
 ## Last Session
-- **Date:** 2026-05-15
-- **Summary:** Fixed superpowers plugin install failure (EPERM on rename). Root cause: target directory `C:\Users\admin\.claude\plugins\cache\claude-plugins-official\superpowers\` didn't exist. Created the path manually and moved the temp folder into place as `5.1.0`. Plugin should load on next Claude Code restart.
+- **Date:** 2026-05-16
+- **Summary:** Completed lead gen build (Tasks 5–7). Fixed Trigger.dev MCP. Updated email across all files. gcloud installed but Sheets ADC auth not yet completed — sheets.ts still uses OAuth2 refresh token.
+
+## Lead Gen Build — Ready to Deploy
+**Plan file:** `C:\Users\admin\.claude\plans\i-want-to-build-compiled-marshmallow.md`
+**Branch:** main
+
+| Task | Status |
+|------|--------|
+| 1. Install deps + env setup | ✅ Done |
+| 2. OAuth helper script (`scripts/get-refresh-token.ts`) | ✅ Done |
+| 3. Shared types (`src/lib/types.ts`) | ✅ Done |
+| 4. Firecrawl wrapper (`src/lib/firecrawl.ts` + tests) | ✅ Done |
+| 5. Claude scoring (`src/lib/score.ts` + tests) | ✅ Done — 3/3 tests pass |
+| 6. Google Sheets writer (`src/lib/sheets.ts` + tests) | ✅ Done — 3/3 tests pass |
+| 7. Scheduled task (`src/trigger/lead-gen-dubai-hr.ts`) | ✅ Done — all 9 tests pass, TSC clean |
+| 8. Deploy + configure schedule | ⏳ Manual — steps below |
+
+**To complete Task 8:**
+1. Add 6 env vars to cloud.trigger.dev dashboard: `FIRECRAWL_API_KEY`, `ANTHROPIC_API_KEY`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`, `GOOGLE_SHEET_ID`
+2. `npm run deploy`
+3. Dashboard → Tasks → `lead-gen-dubai-hr` → Schedules → cron `0 6 * * *`, timezone UTC
+4. Manual test run → confirm rows appear in Google Sheet `Leads` tab
+
+## Pending — Google Sheets ADC Switch
+- gcloud CLI installed at `C:\Users\admin\AppData\Local\Google\Cloud SDK\`
+- `gcloud auth application-default login --scopes=...` was started but browser auth not completed
+- **sheets.ts still uses OAuth2 refresh token** — ADC update pending
+- To resume: run `gcloud auth application-default login --scopes=https://www.googleapis.com/auth/spreadsheets,https://www.googleapis.com/auth/cloud-platform` in a new terminal, complete browser auth, then update `sheets.ts` to use `google.auth.GoogleAuth`
+
+## This Session — What Changed
+- Full project audit run — 30+ issues identified and fixed
+- Moved misplaced files: blueprints/weekly-plan-W19, docs/superpowers/plans/, Two.docx, src/trigger/example.ts → archive/
+- Archived one-off equipment scripts: check_and_gen_pdf.py, gen_pdf_final.py
+- Promoted equipment/md_to_pdf.py from .tmp (best PDF converter — now general-purpose CLI)
+- Archived .tmp/ dated outputs, test files, old PDFs; moved social media content → content/linkedin/
+- Created 4 missing blueprints: client-onboarding.md, invoice-creation.md, quote-generation.md, morning-briefing.md
+- Archived live/tasks.md (stale since 2026-04-22 — state.md is source of truth)
+- Updated .claude/rules/clients.md — removed "when built" language (templates exist)
+- Updated CLAUDE.md: Blueprints Built table now has all 13 blueprints, Build Queue updated
 
 ## Open Tasks
-- Reply to Sami — Cedar Wealth Advisory (due 2026-05-05) **[URGENT]**
-- Reply to Karim — DeltaLogix (due 2026-05-05) **[URGENT]**
-- Reply to Reem — Hala Ventures (due 2026-05-05) **[URGENT]**
-- Reply to Construction firm Casablanca (due 2026-05-05) **[URGENT]**
-- Reply to Nadia — Kontrast Personalberatung (due 2026-05-05) **[URGENT]**
-- Reply to CRM quote — laboratoiremvcd@gmail.com (due 2026-05-05) **[URGENT]**
-- Reply to CRM quote — biovagoabdorag@gmail.com (due 2026-05-05) **[URGENT]**
+- Reply to Sami — Cedar Wealth Advisory **[OVERDUE]**
+- Reply to Karim — DeltaLogix **[OVERDUE]**
+- Reply to Reem — Hala Ventures **[OVERDUE]**
+- Reply to Construction firm Casablanca **[OVERDUE]**
+- Reply to Nadia — Kontrast Personalberatung **[OVERDUE]**
+- Reply to CRM quote — laboratoiremvcd@gmail.com **[OVERDUE]**
+- Reply to CRM quote — biovagoabdorag@gmail.com **[OVERDUE]**
 - Deliver audit — Najim Travel **[OVERDUE]**
 - Deliver audit — Cotton & Stitch **[OVERDUE]**
 - Follow up — Foster & Marsh Legal ($12k quote)
 - Follow up — Zayd Property ($6.5k quote)
-- Build invoice template (due 2026-05-15)
-- Build audit template (due 2026-05-15)
-- Close first paying clients (due 2026-05-15)
-- Launch website / landing page (due 2026-05-15)
-- Define Q2 goals collaboratively
-
-## This Week — Calls Booked
-| Date | Time | Who | Topic |
-|------|------|-----|-------|
-| 2026-05-04 | 14:00 | Nadia, Kontrast Personalberatung | LinkedIn automation upsell |
-| 2026-05-05 | 08:00 | R.Abdo, Noor Beauty Group | Onboarding automation discovery |
-| 2026-05-06 | 11:00 | Karim, DeltaLogix | AAA proposal walkthrough |
-| 2026-05-06 | 15:00 | Sami, Cedar Wealth Advisory | Client comms re-kickoff |
-| 2026-05-07 | 08:00 | Reem, Hala Ventures | Outbound automation intro |
-| 2026-05-08 | 09:00 | Construction firm, Casablanca | Quote automation intro |
+- Complete Google Sheets ADC auth (gcloud browser step)
+- Deploy lead gen task to Trigger.dev (Task 8)
 
 ## Current Priorities
 1. Finding clients
@@ -42,8 +67,8 @@
 ## Active Projects
 | Project | Status | Deadline |
 |---------|--------|----------|
-| HR Consultant Automation | Active | — |
-| degiabdo Launch | Active | 2026-05-15 |
+| HR Consultant Automation | Ready to deploy | — |
+| degiabdo Launch | Active | 2026-05-15 (overdue) |
 
 ## Skills Built
 | Skill | Blueprint | Equipment |
@@ -54,3 +79,9 @@
 | Lead update + follow-up email | blueprints/lead-update-followup.md | None (Google Drive + Gmail MCP) |
 | Client proposal document | blueprints/client-proposal-document.md | None (Google Drive MCP — reads 3 sources, creates Doc) |
 | Research Subagent | blueprints/research-subagent.md | None (WebSearch + pdf skill + customer-research skill + Drive/Gmail MCPs) |
+| Trend research & analysis | blueprints/trend-research-analysis.md | equipment/trend_report_pdf.py |
+| Social media repurposing | blueprints/social-media-repurposing.md | equipment/social_media_pdf.py |
+| Client onboarding | blueprints/client-onboarding.md | None (Google Drive + Gmail + Zapier Sheets MCP) |
+| Invoice creation | blueprints/invoice-creation.md | None (Google Drive + Gmail MCP) |
+| Quote generation | blueprints/quote-generation.md | None (Google Drive + Gmail MCP) |
+| Morning briefing | blueprints/morning-briefing.md | None (Google Calendar + Gmail + Drive MCP) |

@@ -51,7 +51,7 @@
 ## Investment
 
 [Reference the accompanying proposal, or:]
-To discuss implementation, contact: raguebi.mba@gmail.com
+To discuss implementation, contact: raguebi.build@gmail.com
 
 ---
 

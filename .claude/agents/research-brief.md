@@ -28,7 +28,7 @@ You receive a brief via prompt and return a completion summary. You do not ask f
 | DATE | Auto (today YYYY-MM-DD) | Derived at runtime |
 | SLUG | Auto (TOPIC → lowercase-hyphenated) | e.g. `ai-agentic-hr` |
 | OUTPUT_FOLDER_ID | `1dK5wbdK3TaVKdc1gP19Itg0b3sce8lm2` | Google Drive folder |
-| TO_EMAIL | `raguebi.mba@gmail.com` | Always Abderrahim |
+| TO_EMAIL | `raguebi.build@gmail.com` | Always Abderrahim |
 | LENS | SME / MENA | Research lens — keep unless overridden |
 
 ---
