@@ -6,6 +6,11 @@ Uses reportlab if available, falls back to fpdf2.
 import sys
 import os
 import re
+from pathlib import Path as _Path
+_equipdir = str(_Path(__file__).parent)
+if _equipdir not in sys.path:
+    sys.path.insert(0, _equipdir)
+from brand import page_callback as _brand_cb
 
 def strip_markdown(text):
     """Minimal markdown to plain text for PDF rendering."""
@@ -46,18 +51,18 @@ def generate_with_reportlab(md_path, pdf_path, content):
 
     style_h1 = ParagraphStyle(
         'H1', parent=styles['Heading1'],
-        fontSize=18, spaceAfter=6, textColor=colors.HexColor('#1a1a2e'),
+        fontSize=18, spaceAfter=6, textColor=colors.HexColor('#012240'),
         leading=22
     )
     style_h2 = ParagraphStyle(
         'H2', parent=styles['Heading2'],
         fontSize=13, spaceAfter=4, spaceBefore=10,
-        textColor=colors.HexColor('#16213e'), leading=18
+        textColor=colors.HexColor('#012240'), leading=18
     )
     style_h3 = ParagraphStyle(
         'H3', parent=styles['Heading3'],
         fontSize=11, spaceAfter=3, spaceBefore=8,
-        textColor=colors.HexColor('#0f3460'), leading=15
+        textColor=colors.HexColor('#4f4cee'), leading=15
     )
     style_body = ParagraphStyle(
         'Body', parent=styles['Normal'],
@@ -69,7 +74,7 @@ def generate_with_reportlab(md_path, pdf_path, content):
     )
     style_label = ParagraphStyle(
         'Label', parent=styles['Normal'],
-        fontSize=9, textColor=colors.HexColor('#0f3460'),
+        fontSize=9, textColor=colors.HexColor('#4f4cee'),
         spaceAfter=2, leading=12, fontName='Helvetica-Bold'
     )
     style_footer = ParagraphStyle(
@@ -119,7 +124,7 @@ def generate_with_reportlab(md_path, pdf_path, content):
 
         i += 1
 
-    doc.build(story)
+    doc.build(story, onFirstPage=_brand_cb, onLaterPages=_brand_cb)
     print(f"PDF generated: {pdf_path}")
 
 def generate_with_fpdf(md_path, pdf_path, content):
@@ -128,11 +133,21 @@ def generate_with_fpdf(md_path, pdf_path, content):
     class PDF(FPDF):
         def header(self):
             pass
+        def header(self):
+            self.set_fill_color(1, 34, 64)      # #012240 navy
+            self.rect(0, 0, self.w, 12, 'F')
+            self.set_fill_color(232, 152, 32)    # #e89820 amber
+            self.rect(0, 12, self.w, 1.2, 'F')
+            self.set_font('Helvetica', 'B', 10)
+            self.set_text_color(255, 255, 255)
+            self.set_y(2)
+            self.cell(0, 8, 'degiabdo', align='R')
+            self.ln(6)
         def footer(self):
             self.set_y(-12)
             self.set_font('Helvetica', 'I', 7)
-            self.set_text_color(150, 150, 150)
-            self.cell(0, 5, f'Research Brief Agent — degiabdo — Page {self.page_no()}', align='C')
+            self.set_text_color(100, 116, 139)   # #64748b muted
+            self.cell(0, 5, f'degiabdo  |  Page {self.page_no()}', align='C')
 
     pdf = PDF()
     pdf.add_page()

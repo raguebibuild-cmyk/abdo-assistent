@@ -9,17 +9,22 @@ from reportlab.platypus import (
     HRFlowable, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle,
 )
 
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).parent))
+from brand import page_callback as _brand_cb
+
 PAGE_W, PAGE_H = A4
 
-NAVY            = colors.HexColor('#1a3a5c')
-BLUE            = colors.HexColor('#2563eb')
+NAVY            = colors.HexColor('#012240')
+BLUE            = colors.HexColor('#4f4cee')
+AMBER           = colors.HexColor('#e89820')
 CODE_BG         = colors.HexColor('#f1f5f9')
 CODE_FG         = colors.HexColor('#374151')
 ALT_ROW         = colors.HexColor('#f8fafc')
 BORDER          = colors.HexColor('#e2e8f0')
 HR_COLOR        = colors.HexColor('#cbd5e1')
-BLOCKQUOTE_BG   = colors.HexColor('#fffbeb')
-BLOCKQUOTE_LINE = colors.HexColor('#f59e0b')
+BLOCKQUOTE_BG   = colors.HexColor('#fff8ed')
+BLOCKQUOTE_LINE = AMBER
 TEXT            = colors.HexColor('#1e293b')
 MUTED           = colors.HexColor('#64748b')
 
@@ -207,7 +212,7 @@ def convert(src: Path, dst: Path):
             text = inline_fmt(m.group(2))
             story.append(Paragraph(text, styles[f'h{level}']))
             if level == 1:
-                story.append(HRFlowable(width='100%', thickness=2, color=NAVY, spaceAfter=8))
+                story.append(HRFlowable(width='100%', thickness=2, color=AMBER, spaceAfter=8))
             elif level == 2:
                 story.append(HRFlowable(width='100%', thickness=0.5, color=BORDER, spaceAfter=4))
             i += 1
@@ -284,7 +289,7 @@ def convert(src: Path, dst: Path):
         topMargin=2*cm, bottomMargin=2*cm,
         author='degiabdo — Abderrahim',
     )
-    doc.build(story)
+    doc.build(story, onFirstPage=_brand_cb, onLaterPages=_brand_cb)
     print(f'  -> {dst}')
 
 
