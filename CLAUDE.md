@@ -155,8 +155,8 @@ All credentials live in `.env`. One script, one job.
 | Trend Research & Analysis | blueprints/trend-research-analysis.md | Blueprint + Equipment (trend_report_pdf.py) + Drive MCP |
 | Social Media Repurposing | blueprints/social-media-repurposing.md | Blueprint + Equipment (social_media_pdf.py) + Drive MCP |
 | Client Onboarding | blueprints/client-onboarding.md | Blueprint + Drive/Gmail/Zapier Sheets MCPs |
-| Invoice Creation | blueprints/invoice-creation.md | Blueprint + Drive/Gmail MCPs |
-| Quote Generation | blueprints/quote-generation.md | Blueprint + Drive/Gmail MCPs |
+| Invoice Creation | blueprints/invoice-creation.md | Blueprint + Equipment (invoice_pdf.py) + Drive/Gmail MCPs |
+| Quote Generation | blueprints/quote-generation.md | Blueprint + Equipment (md_to_pdf.py) + Drive/Gmail MCPs |
 | Morning Briefing | blueprints/morning-briefing.md | Blueprint + Calendar/Gmail/Drive MCPs |
 
 ---

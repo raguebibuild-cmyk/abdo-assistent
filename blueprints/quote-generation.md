@@ -110,7 +110,25 @@ Do not leave any `[bracket]` placeholder in the output.
 
 ---
 
-### Step 4 — Create the Google Doc
+### Step 4 — Generate the branded PDF
+
+Save the populated quote content (from Step 3) to:
+```
+clients/[ClientName]/quotes/Quote_[ClientCode]_[YYYYMMDD]_[ServiceShortName].md
+```
+
+Then run:
+```bash
+python equipment/md_to_pdf.py "clients/[ClientName]/quotes/Quote_[ClientCode]_[YYYYMMDD]_[ServiceShortName].md" "clients/[ClientName]/quotes/Quote_[ClientCode]_[YYYYMMDD]_[ServiceShortName].pdf"
+```
+
+Record the PDF path. This is the file to attach when sending to the prospect.
+
+If the script fails: report the error. Do not continue until the PDF is confirmed.
+
+---
+
+### Step 5 — Create the Google Doc
 
 Call `mcp__claude_ai_Google_Drive__create_file` with:
 - `title`: `Quote_[ClientCode]_[YYYYMMDD]_[ServiceShortName]`
@@ -123,7 +141,7 @@ Record the returned file URL. If creation fails: report the exact error. Do not 
 
 ---
 
-### Step 5 — Draft the Gmail
+### Step 6 — Draft the Gmail
 
 ```
 Subject: Quote — [Service Name] for [Client / Company name]
@@ -154,20 +172,21 @@ Never send. Save as draft only. Record the Gmail draft ID.
 
 ---
 
-### Step 6 — Report
+### Step 7 — Report
 
 ```
 ## Quote Generated — [Client Name] — [DATE]
 
 [x] Pricing read: [Service] — [Package]
     Setup: €[setup] | Monthly: €[monthly] | Annual: €[annual_monthly]/month
+[x] PDF generated: clients/[ClientName]/quotes/Quote_[ClientCode]_[YYYYMMDD]_[ServiceShortName].pdf
 [x] Google Doc: [URL]
     Reference: [QUO-CODE-DATE]
     Valid until: [VALID_UNTIL]
 [x] Gmail draft saved — subject: Quote — [Service] for [Client]
     Draft ID: [ID]
 
-Review the Google Doc and the Gmail draft before sending.
+Review the PDF and the Gmail draft before sending. Attach the PDF to the email.
 ```
 
 ---

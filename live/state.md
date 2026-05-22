@@ -3,8 +3,8 @@
 *Updated at the end of each session. Read this FIRST on startup.*
 
 ## Last Session
-- **Date:** 2026-05-16
-- **Summary:** Completed lead gen build (Tasks 5–7). Fixed Trigger.dev MCP. Updated email across all files. gcloud installed but Sheets ADC auth not yet completed — sheets.ts still uses OAuth2 refresh token.
+- **Date:** 2026-05-20
+- **Summary:** Logo updated at `assets/brand/logo.png`. Verified all 4 PDF scripts pick it up via `brand.py` — no code changes needed. Test PDF generated and confirmed clean render.
 
 ## Lead Gen Build — Ready to Deploy
 **Plan file:** `C:\Users\admin\.claude\plans\i-want-to-build-compiled-marshmallow.md`

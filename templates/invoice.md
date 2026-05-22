@@ -5,15 +5,16 @@
 **Invoice number:** INV-[CLIENT_CODE]-[YYYYMMDD]  
 **Date:** [YYYY-MM-DD]  
 **Due:** [DUE_DATE] (30 days from invoice date)  
+**Status:** Due
 
 ---
 
-## Services Rendered
+## Line Items
 
-| Service | Period | Amount |
-|---------|--------|--------|
-| [Service line 1 — e.g. "Growth CRM Setup"] | [Month YYYY] | €[amount] |
-| [Service line 2 — e.g. "Monthly retainer"] | [Month YYYY] | €[amount] |
+| Item | Qty | Unit Price | Amount |
+|------|-----|------------|--------|
+| [Service or product description] | 1 | €[unit_price] | €[amount] |
+| [Second line item if applicable] | 1 | €[unit_price] | €[amount] |
 
 ---
 
@@ -22,7 +23,7 @@
 | | |
 |-|--|
 | Subtotal | €[subtotal] |
-| VAT (5%) | €[vat_amount] |
+| Tax (5%) | €[tax_amount] |
 | **Total due** | **€[total]** |
 
 ---
@@ -38,7 +39,7 @@
 
 Payment terms: 30 days from invoice date.  
 Late payment: 2% per month on overdue balances.  
-VAT registration: [vat_number from identity doc]  
+Tax registration: [vat_number from identity doc]  
 
 Questions? Reply to this email.
 
