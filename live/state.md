@@ -3,8 +3,8 @@
 *Updated at the end of each session. Read this FIRST on startup.*
 
 ## Last Session
-- **Date:** 2026-05-20
-- **Summary:** Logo updated at `assets/brand/logo.png`. Verified all 4 PDF scripts pick it up via `brand.py` — no code changes needed. Test PDF generated and confirmed clean render.
+- **Date:** 2026-05-22
+- **Summary:** Built branded invoice PDF generator (`equipment/invoice_pdf.py`). Added PAID watermark, Item/Qty/Unit Price/Amount table, Status field. Added PDF generation step to invoice and quote blueprints. Updated templates/invoice.md. Committed as `679b38e`.
 
 ## Lead Gen Build — Ready to Deploy
 **Plan file:** `C:\Users\admin\.claude\plans\i-want-to-build-compiled-marshmallow.md`
@@ -34,15 +34,10 @@
 - To resume: run `gcloud auth application-default login --scopes=https://www.googleapis.com/auth/spreadsheets,https://www.googleapis.com/auth/cloud-platform` in a new terminal, complete browser auth, then update `sheets.ts` to use `google.auth.GoogleAuth`
 
 ## This Session — What Changed
-- Full project audit run — 30+ issues identified and fixed
-- Moved misplaced files: blueprints/weekly-plan-W19, docs/superpowers/plans/, Two.docx, src/trigger/example.ts → archive/
-- Archived one-off equipment scripts: check_and_gen_pdf.py, gen_pdf_final.py
-- Promoted equipment/md_to_pdf.py from .tmp (best PDF converter — now general-purpose CLI)
-- Archived .tmp/ dated outputs, test files, old PDFs; moved social media content → content/linkedin/
-- Created 4 missing blueprints: client-onboarding.md, invoice-creation.md, quote-generation.md, morning-briefing.md
-- Archived live/tasks.md (stale since 2026-04-22 — state.md is source of truth)
-- Updated .claude/rules/clients.md — removed "when built" language (templates exist)
-- Updated CLAUDE.md: Blueprints Built table now has all 13 blueprints, Build Queue updated
+- Rewrote `blueprints/social-media-repurposing.md`: now standalone (no Blueprint 1 dependency), accepts any content input, updated word limits (Instagram 150, LinkedIn 250, Facebook 200), emojis on Instagram, output to `social-media/`
+- Updated `equipment/social_media_pdf.py`: added `PageBreak` between platform sections — each platform now renders on its own page
+- Created `social-media/` output folder
+- First run: weight loss topic → `social-media/social-2026-05-22.pdf` (3 pages, branded)
 
 ## Open Tasks
 - Reply to Sami — Cedar Wealth Advisory **[OVERDUE]**
@@ -82,6 +77,6 @@
 | Trend research & analysis | blueprints/trend-research-analysis.md | equipment/trend_report_pdf.py |
 | Social media repurposing | blueprints/social-media-repurposing.md | equipment/social_media_pdf.py |
 | Client onboarding | blueprints/client-onboarding.md | None (Google Drive + Gmail + Zapier Sheets MCP) |
-| Invoice creation | blueprints/invoice-creation.md | None (Google Drive + Gmail MCP) |
-| Quote generation | blueprints/quote-generation.md | None (Google Drive + Gmail MCP) |
+| Invoice creation | blueprints/invoice-creation.md | equipment/invoice_pdf.py + Drive/Gmail MCP |
+| Quote generation | blueprints/quote-generation.md | equipment/md_to_pdf.py + Drive/Gmail MCP |
 | Morning briefing | blueprints/morning-briefing.md | None (Google Calendar + Gmail + Drive MCP) |

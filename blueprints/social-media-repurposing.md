@@ -1,17 +1,17 @@
 # Blueprint: Social Media Repurposing
 
 **Type:** Blueprint + Equipment (social_media_pdf.py) + Google Drive MCP
-**Trigger:** On demand — "Run Social Media Repurposing" or "Run Blueprint 2"
-**Depends on:** Blueprint 1 (Trend Research & Analysis) — requires MD_PATH output
-**Feeds into:** Nothing — this is the final step in the pipeline
+**Trigger:** On demand — "Repurpose this for social" / "Run Social Media Repurposing" / paste any content
+**Depends on:** Nothing — standalone workflow
+**Feeds into:** Nothing — output is a PDF for review before publishing
 
 ---
 
 ## Goal
 
-Take the Trend Report markdown from Blueprint 1, repurpose the top insights into three platform-specific social media posts (LinkedIn, Facebook, Instagram), save everything as a formatted Social Media Content PDF, and upload to Google Drive for review.
+Take any piece of content — raw text, a topic, or a pasted article — and rewrite it into three platform-ready social media posts (Instagram, LinkedIn, Facebook). Generate a branded PDF with one page per platform and save to the `social-media/` folder.
 
-Never post directly. All output is saved to Drive — Abderrahim reviews before publishing.
+Never publish directly. All output is for Abderrahim to review before posting.
 
 ---
 
@@ -19,135 +19,141 @@ Never post directly. All output is saved to Drive — Abderrahim reviews before 
 
 | Input | Default | Description |
 |-------|---------|-------------|
-| MD_PATH | Required — passed from Blueprint 1 | Path to the trend report markdown file |
+| CONTENT | Required | The source content: raw text, topic brief, or article body |
 | DATE | Auto (today YYYY-MM-DD) | Derived at runtime |
-| SLUG | `social-media-[DATE]` | Lowercase-hyphenated file slug |
-| OUTPUT_FOLDER_ID | `1dK5wbdK3TaVKdc1gP19Itg0b3sce8lm2` | Google Drive folder for output |
-| SM_MD_PATH | `.tmp/social-media-[SLUG].md` | Social media markdown output path |
-| SM_PDF_PATH | `.tmp/social-media-[SLUG].pdf` | Social media PDF output path |
+| SLUG | `social-[DATE]` | Lowercase-hyphenated file slug |
+| SM_MD_PATH | `social-media/social-[SLUG].md` | Markdown output path |
+| SM_PDF_PATH | `social-media/social-[SLUG].pdf` | PDF output path |
+| OUTPUT_FOLDER_ID | `1dK5wbdK3TaVKdc1gP19Itg0b3sce8lm2` | Google Drive folder (optional upload) |
 
-If MD_PATH is missing: stop. "Blueprint 1 output path (MD_PATH) is required. Run Blueprint 1 first, or provide the path manually."
+If CONTENT is missing or empty: stop. "Content input is required. Paste the text, topic, or article you want to repurpose."
 
 ---
 
 ## Pre-flight Checklist
 
 Before starting, confirm:
-- [ ] MD_PATH is set and the file exists at that path
+- [ ] CONTENT is present and non-empty
 - [ ] DATE is set (today's date)
-- [ ] `.tmp/` directory exists (create if not)
+- [ ] `social-media/` directory exists (create if not: `os.makedirs("social-media", exist_ok=True)`)
 - [ ] `equipment/social_media_pdf.py` exists
-- [ ] Google Drive MCP accessible (`mcp__claude_ai_Google_Drive__*`)
+- [ ] Google Drive MCP accessible (`mcp__claude_ai_Google_Drive__*`) — optional
 
-If the MD_PATH file does not exist: stop. Do not proceed.
+If CONTENT is empty: stop. Do not proceed.
 If Google Drive is unavailable: continue — save locally and report.
 
 ---
 
 ## Sequence
 
-### Step 1 — Read Trend Report
+### Step 1 — Understand the Source Content
 
-Read the file at MD_PATH. Extract:
+Read CONTENT and extract:
 
-- The **Executive Summary** section (copy verbatim — 2–4 sentences)
-- The **top 3 trend titles** and their one-line "Why it matters" statements
-- Any **MENA-relevant angle** if present in the report
+- The **core message or main argument** (one sentence)
+- The **key facts, stats, or insights** (up to 5 bullet points)
+- The **audience** — who would find this valuable
+- The **tone** of the original — adjust per platform
 
-Do not re-research or re-analyse. Use only what Blueprint 1 produced.
+If the input is a topic brief (not an article), generate the posts from your knowledge of that topic. Do not fabricate statistics — use general claims if no data is provided.
 
 ---
 
-### Step 2 — Draft Three Social Media Posts
+### Step 2 — Draft Three Platform Posts
 
 Write one post per platform. Follow the guides below exactly.
 
+#### Instagram Post Guide
+
+- **Length:** Max 150 words
+- **Tone:** Direct, punchy, scroll-stopping — visual-first
+- **Emojis:** Yes — use 3–6 relevant emojis to break up text and add energy
+- **Structure:**
+  1. Hook (one line — bold, visual, or surprising — use an emoji here)
+  2. 3–4 short lines unpacking the core message (each max 15 words)
+  3. One closing call to action
+  4. 5–8 hashtags on the last line
+- **Never:** Long paragraphs, passive voice, more than 8 hashtags, jargon
+
 #### LinkedIn Post Guide
 
-- **Length:** 150–250 words
-- **Tone:** Thought leadership — professional, confident, first-person plural ("we", "our research")
+- **Length:** Max 250 words
+- **Tone:** Professional, insight-driven, thought leadership — first-person
+- **Emojis:** No
 - **Structure:**
-  1. Hook (one line — bold claim or striking stat from the trend report)
-  2. 2–3 short paragraphs unpacking the top 2–3 insights
-  3. Closing call to action (question or invitation to comment)
-  4. 3–5 hashtags on the last line (relevant, not generic)
-- **Never:** emojis, casual language, generic openers like "As you know..."
+  1. Hook (one line — bold claim, striking insight, or counterintuitive statement)
+  2. 2–3 short paragraphs unpacking the key ideas with evidence or reasoning
+  3. Closing call to action (question to prompt comments, or invitation to connect)
+  4. 3–5 relevant hashtags on the last line
+- **Never:** Emojis, casual language, generic openers ("As you know...", "Excited to share...")
 
 #### Facebook Post Guide
 
-- **Length:** 80–130 words
-- **Tone:** Conversational, warm, accessible — not corporate
+- **Length:** Max 200 words
+- **Tone:** Conversational, warm, community-focused — accessible to non-experts
+- **Emojis:** 2–3 max, used lightly
 - **Structure:**
-  1. Opening question or relatable statement (one line)
-  2. 2 short paragraphs: the trend + what it means for small businesses
-  3. Closing question to prompt engagement
-  4. 3 hashtags
-- **Never:** jargon, long sentences, bullet lists
-
-#### Instagram Post Guide
-
-- **Length:** 60–100 words (caption only — no image required)
-- **Tone:** Direct, punchy, scroll-stopping
-- **Structure:**
-  1. Hook (one line — striking, visual-first)
-  2. 3 bullet points (top 3 trend findings, each max 10 words)
-  3. One closing line (call to action)
-  4. 5–8 hashtags on the last line
-- **Never:** long paragraphs, passive voice, more than 8 hashtags
+  1. Opening question or relatable statement (one line — invites the reader in)
+  2. 2–3 short paragraphs: the core message + what it means for real people or small businesses
+  3. Closing question to prompt engagement and comments
+  4. 3–4 hashtags
+- **Never:** Jargon, long sentences, bullet lists, corporate speak
 
 ---
 
 ### Step 3 — Draft Social Media Markdown
 
-Write the output using this exact structure. Do not deviate from the template.
+Write the output using this exact structure. Do not deviate.
 
 ```markdown
-# Social Media Content Pack — AI & Tech Trends [DATE]
+# Social Media Content Pack — [DATE]
 
-**Prepared by:** Social Media Repurposing Agent — degiabdo
+**Prepared by:** Social Media Repurposing Agent — DEGISaaS
 **Date:** [DATE]
-**Source report:** [MD_PATH]
-
----
-
-## LinkedIn Post
-
-[Full LinkedIn post text]
-
----
-
-## Facebook Post
-
-[Full Facebook post text]
+**Source:** [First 80 characters of CONTENT or topic title]
 
 ---
 
 ## Instagram Post
 
-[Full Instagram post text]
+[Full Instagram post text including emojis and hashtags]
+
+---
+
+## LinkedIn Post
+
+[Full LinkedIn post text including hashtags]
+
+---
+
+## Facebook Post
+
+[Full Facebook post text including hashtags]
 
 ---
 
 ## Content Notes
 
-| Platform | Word Count | Hashtag Count | Tone Check |
-|----------|-----------|---------------|------------|
-| LinkedIn | [N] | [N] | Professional ✓ |
-| Facebook | [N] | [N] | Conversational ✓ |
-| Instagram | [N] | [N] | Punchy ✓ |
+| Platform  | Word Count | Hashtag Count | Tone Check         |
+|-----------|------------|---------------|--------------------|
+| Instagram | [N]        | [N]           | Punchy ✓           |
+| LinkedIn  | [N]        | [N]           | Professional ✓     |
+| Facebook  | [N]        | [N]           | Conversational ✓   |
 
 ---
 
-*Social Media Repurposing Agent — degiabdo — [DATE]*
+*Social Media Repurposing Agent — DEGISaaS — [DATE]*
 ```
 
 Save to: `SM_MD_PATH`
 
 ---
 
-### Step 4 — Generate Social Media PDF
+### Step 4 — Generate PDF
 
 Run: `python equipment/social_media_pdf.py [SM_MD_PATH] [SM_PDF_PATH]`
+
+The script renders each platform on its own page with branded header/footer.
 
 If the script fails: invoke the `pdf` skill with the markdown content as fallback.
 If that also fails: upload the `.md` file to Drive as a Google Doc and note the fallback.
@@ -156,40 +162,38 @@ Output: `SM_PDF_PATH`
 
 ---
 
-### Step 5 — Upload to Google Drive
+### Step 5 — Upload to Google Drive (Optional)
 
 Use `mcp__claude_ai_Google_Drive__create_file`:
 
 | Field | Value |
 |-------|-------|
-| Name | `Social Media Content Pack — AI & Tech Trends [DATE]` |
+| Name | `Social Media Content Pack — [DATE]` |
 | Content | Contents of `SM_PDF_PATH` |
 | Folder | `OUTPUT_FOLDER_ID` |
 | MIME type | `application/pdf` |
 
 Capture the returned **file ID** and **shareable link**.
 
-If Drive upload fails: save locally only. Report the full local path.
+If Drive upload fails or is unavailable: save locally only. Report the full local path.
 
 ---
 
 ### Step 6 — Report Back
 
-Print a summary:
-
 ```
-Blueprint 2 complete — Social Media Repurposing
+Social Media Repurposing — complete
 
-Date:         [DATE]
-Source:       [MD_PATH]
-Markdown:     [SM_MD_PATH]
-PDF:          [SM_PDF_PATH]
-Drive file:   [Drive URL or "upload failed — saved locally"]
+Date:       [DATE]
+Source:     [First 80 chars of input]
+Markdown:   [SM_MD_PATH]
+PDF:        [SM_PDF_PATH]
+Drive file: [Drive URL or "saved locally only"]
 
 Posts generated:
-  LinkedIn  ✓  [N words]
-  Facebook  ✓  [N words]
-  Instagram ✓  [N words]
+  Instagram  ✓  [N words]  [N hashtags]
+  LinkedIn   ✓  [N words]  [N hashtags]
+  Facebook   ✓  [N words]  [N hashtags]
 ```
 
 ---
@@ -198,23 +202,21 @@ Posts generated:
 
 | Failure | Response |
 |---------|---------|
-| MD_PATH not provided | Stop immediately. "MD_PATH is required. Run Blueprint 1 first or provide the path." |
-| MD_PATH file not found on disk | Stop immediately. "File not found at [MD_PATH]. Check the path and try again." |
-| Trend report has fewer than 3 trends | Use all trends available. Adjust posts accordingly — do not fabricate. |
-| `social_media_pdf.py` fails | Fall back to `pdf` skill. If that also fails, upload the `.md` as a Google Doc. |
-| Drive upload fails | Save PDF to `.tmp/` only. Report full local path. |
-| Any MCP unavailable | Stop at that step. Report exactly what was produced so far and where it was saved. |
+| CONTENT not provided | Stop. "Content input is required. Paste the text or topic you want to repurpose." |
+| CONTENT too short to work with (<20 words, not a topic) | Ask: "This looks short — is this the full content, or a topic brief?" |
+| `social_media_pdf.py` fails | Fall back to `pdf` skill. If that also fails, upload the `.md` as Google Doc. |
+| Drive upload fails | Save PDF to `social-media/` only. Report full local path. |
+| Any MCP unavailable | Continue without it. Save locally and report what was produced. |
 
 ---
 
 ## Notes
 
-- This blueprint is the downstream consumer of Blueprint 1 (Trend Research & Analysis)
-- Do not re-research — use only what Blueprint 1 produced in its markdown file
-- Post lengths are caps, not targets — shorter is fine if content is complete
-- MENA angle: include only if it appeared in the trend report — do not force it
-- All output is for review — nothing gets published directly from this blueprint
-- Output Drive folder defaults to Client Propositions. A dedicated Social Media folder can be created if volume warrants it.
+- **Standalone** — does not require Blueprint 1 (Trend Research). Works on any input.
+- Instagram emojis are intentional — standard on that platform, user-requested.
+- Word counts are caps, not targets — shorter is fine if the content is complete.
+- Nothing gets published from this blueprint — all output is for review.
+- Output folder: `social-media/` (created automatically on first run).
 
 ---
 

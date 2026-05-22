@@ -46,7 +46,7 @@ def try_reportlab(content, pdf_path):
     from reportlab.lib.styles import ParagraphStyle
     from reportlab.lib.units import mm
     from reportlab.lib import colors
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable, PageBreak
 
     MARGIN = 22 * mm
     DARK   = colors.HexColor("#012240")
@@ -107,6 +107,7 @@ def try_reportlab(content, pdf_path):
     lines = content.split('\n')
     i = 0
     table_rows = []
+    platform_count = 0
 
     while i < len(lines):
         line = lines[i].rstrip()
@@ -116,7 +117,14 @@ def try_reportlab(content, pdf_path):
             story.append(HRFlowable(width="100%", thickness=1.5, color=ACCENT, spaceAfter=3*mm))
         elif line.startswith('## '):
             title = line[3:]
-            story.append(HRFlowable(width="100%", thickness=0.5, color=colors.HexColor("#cccccc"), spaceBefore=3*mm, spaceAfter=1*mm))
+            t = title.lower()
+            is_platform = any(p in t for p in ('linkedin', 'facebook', 'instagram'))
+            if is_platform:
+                if platform_count > 0:
+                    story.append(PageBreak())
+                platform_count += 1
+            else:
+                story.append(HRFlowable(width="100%", thickness=0.5, color=colors.HexColor("#cccccc"), spaceBefore=3*mm, spaceAfter=1*mm))
             story.append(para(title, h2_style(title)))
         elif line.startswith('### '):
             story.append(para(line[4:], H3))
