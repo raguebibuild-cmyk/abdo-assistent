@@ -99,6 +99,7 @@ npm test src/lib/score.test.ts  # run a single test file
 npm run test:watch   # watch mode
 npm run deploy       # deploy tasks to Trigger.dev cloud
 npx tsc --noEmit     # TypeScript type check
+npm run auth:sheets  # run OAuth helper to get Google Sheets refresh token
 ```
 
 ---
@@ -139,6 +140,8 @@ Build Python scripts only for tasks requiring deterministic execution: PDF/docum
 
 All credentials live in `.env`. One script, one job.
 
+**Shared branding module:** `equipment/brand.py` is the single source of truth for all PDF styling — colours, fonts, logo path, and the `page_callback` that draws the header/footer on every page. Every PDF generation script imports it. Do not redefine brand constants in individual scripts; update `brand.py` instead. Logo lives at `assets/brand/logo.png`.
+
 ---
 
 ## Blueprints Built
@@ -151,26 +154,16 @@ All credentials live in `.env`. One script, one job.
 | Lead Update + Follow-up | blueprints/lead-update-followup.md | Blueprint + Drive/Gmail MCPs |
 | Client Proposal Document | blueprints/client-proposal-document.md | Blueprint + Drive MCP |
 | Prioritisation | blueprints/prioritisation.md | Blueprint only |
-| Research Subagent | blueprints/research-subagent.md | Blueprint + Drive/Gmail MCPs + pdf/customer-research skills |
+| Research Subagent | blueprints/research-subagent.md | Blueprint + Equipment (generate_research_pdf.py) + Drive/Gmail MCPs + pdf/customer-research skills |
 | Trend Research & Analysis | blueprints/trend-research-analysis.md | Blueprint + Equipment (trend_report_pdf.py) + Drive MCP |
 | Social Media Repurposing | blueprints/social-media-repurposing.md | Blueprint + Equipment (social_media_pdf.py) + Drive MCP |
 | Client Onboarding | blueprints/client-onboarding.md | Blueprint + Drive/Gmail/Zapier Sheets MCPs |
 | Invoice Creation | blueprints/invoice-creation.md | Blueprint + Equipment (invoice_pdf.py) + Drive/Gmail MCPs |
 | Quote Generation | blueprints/quote-generation.md | Blueprint + Equipment (md_to_pdf.py) + Drive/Gmail MCPs |
 | Morning Briefing | blueprints/morning-briefing.md | Blueprint + Calendar/Gmail/Drive MCPs |
-
----
-
-## Build Queue
-
-Remaining items ranked by frequency and time saved:
-
-1. **Frequent question replies** — Draft replies to common client questions.
-2. **Client closeout** — Offboard a finished client, archive files, request testimonial.
-
-*(Client onboarding, invoice creation, quote generation, social media, and morning briefing are built — see Blueprints Built above.)*
-
-To build any of these: say "Build a Blueprint for [task]."
+| Weekly Pipeline Review | blueprints/weekly-pipeline-review.md | Blueprint + Gmail MCP (Monday 08:30 GMT+1) |
+| LinkedIn Content Batch | blueprints/linkedin-content-batch.md | Blueprint + WebSearch (Wednesday 09:00 GMT+1) |
+| Monthly Business Health Report | blueprints/monthly-health-report.md | Blueprint + Equipment (health_report_pdf.py) + Drive MCP (1st of month 09:00 GMT+1) |
 
 ---
 
@@ -211,7 +204,11 @@ To build any of these: say "Build a Blueprint for [task]."
 | references/playbooks/ | Repeatable processes |
 | references/goldstandard/ | Output quality benchmarks |
 | blueprints/ | Workflow SOPs |
-| equipment/ | Python scripts — one job each |
+| equipment/ | Python scripts — one job each; `brand.py` is the shared branding module |
+| assets/brand/ | Logo and brand assets used by PDF generation scripts |
+| scripts/ | OAuth and utility scripts (TypeScript) |
+| social-media/ | Output PDFs from the Social Media Repurposing blueprint |
+| landing-page/ | Landing page files |
 | .tmp/ | Disposable temp files |
 | .env | Credentials — the only place they live |
 | archive/ | Nothing gets deleted — moved here |

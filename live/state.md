@@ -80,3 +80,6 @@
 | Invoice creation | blueprints/invoice-creation.md | equipment/invoice_pdf.py + Drive/Gmail MCP |
 | Quote generation | blueprints/quote-generation.md | equipment/md_to_pdf.py + Drive/Gmail MCP |
 | Morning briefing | blueprints/morning-briefing.md | None (Google Calendar + Gmail + Drive MCP) |
+| Weekly pipeline review | blueprints/weekly-pipeline-review.md | None (Gmail MCP — runs Mondays 08:30 GMT+1) |
+| LinkedIn content batch | blueprints/linkedin-content-batch.md | None (WebSearch — runs Wednesdays 09:00 GMT+1) |
+| Monthly business health report | blueprints/monthly-health-report.md | equipment/health_report_pdf.py + Drive MCP (runs 1st of month 09:00 GMT+1) |
