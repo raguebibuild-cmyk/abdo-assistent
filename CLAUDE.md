@@ -164,6 +164,9 @@ All credentials live in `.env`. One script, one job.
 | Weekly Pipeline Review | blueprints/weekly-pipeline-review.md | Blueprint + Gmail MCP (Monday 08:30 GMT+1) |
 | LinkedIn Content Batch | blueprints/linkedin-content-batch.md | Blueprint + WebSearch (Wednesday 09:00 GMT+1) |
 | Monthly Business Health Report | blueprints/monthly-health-report.md | Blueprint + Equipment (health_report_pdf.py) + Drive MCP (1st of month 09:00 GMT+1) |
+| Research Agent | .claude/agents/research-agent.md | Agent + Equipment (research_pdf.py) + optional Drive/Gmail MCPs |
+| Code Review Agent | .claude/agents/code-review-agent.md | Agent + Equipment (code_review_pdf.py) |
+| Lead Outreach Agent | .claude/agents/lead-outreach-agent.md | Agent + WebSearch/WebFetch + Gmail MCP |
 
 ---
 
@@ -204,6 +207,7 @@ All credentials live in `.env`. One script, one job.
 | references/playbooks/ | Repeatable processes |
 | references/goldstandard/ | Output quality benchmarks |
 | blueprints/ | Workflow SOPs |
+| .claude/agents/ | Claude Code agent definitions — system prompts + tool lists |
 | equipment/ | Python scripts — one job each; `brand.py` is the shared branding module |
 | assets/brand/ | Logo and brand assets used by PDF generation scripts |
 | scripts/ | OAuth and utility scripts (TypeScript) |

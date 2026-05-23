@@ -3,8 +3,8 @@
 *Updated at the end of each session. Read this FIRST on startup.*
 
 ## Last Session
-- **Date:** 2026-05-22
-- **Summary:** Built branded invoice PDF generator (`equipment/invoice_pdf.py`). Added PAID watermark, Item/Qty/Unit Price/Amount table, Status field. Added PDF generation step to invoice and quote blueprints. Updated templates/invoice.md. Committed as `679b38e`.
+- **Date:** 2026-05-23
+- **Summary:** Built 2 Claude Code agents. Research Agent (`.claude/agents/research-agent.md` + `equipment/research_pdf.py`) — general-purpose research for any topic, saves branded PDF to `reports/`. Code Review Agent (`.claude/agents/code-review-agent.md` + `equipment/code_review_pdf.py`) — accepts file path or snippet, rates issues CRITICAL/WARNING/INFO, saves branded PDF to `reports/`. Updated CLAUDE.md with both agents and `.claude/agents/` added to file map.
 
 ## Lead Gen Build — Ready to Deploy
 **Plan file:** `C:\Users\admin\.claude\plans\i-want-to-build-compiled-marshmallow.md`
@@ -34,10 +34,10 @@
 - To resume: run `gcloud auth application-default login --scopes=https://www.googleapis.com/auth/spreadsheets,https://www.googleapis.com/auth/cloud-platform` in a new terminal, complete browser auth, then update `sheets.ts` to use `google.auth.GoogleAuth`
 
 ## This Session — What Changed
-- Rewrote `blueprints/social-media-repurposing.md`: now standalone (no Blueprint 1 dependency), accepts any content input, updated word limits (Instagram 150, LinkedIn 250, Facebook 200), emojis on Instagram, output to `social-media/`
-- Updated `equipment/social_media_pdf.py`: added `PageBreak` between platform sections — each platform now renders on its own page
-- Created `social-media/` output folder
-- First run: weight loss topic → `social-media/social-2026-05-22.pdf` (3 pages, branded)
+- Created Research Agent — `.claude/agents/research-agent.md` + `equipment/research_pdf.py`. Trigger: `Research: [topic]`. Saves PDF to `reports/`.
+- Created Code Review Agent — `.claude/agents/code-review-agent.md` + `equipment/code_review_pdf.py`. Trigger: `Review: [file]`. Rates issues CRITICAL/WARNING/INFO. Saves PDF to `reports/`.
+- Created Lead Outreach Agent — `.claude/agents/lead-outreach-agent.md`. Trigger: `Outreach: [Name] — [Company] — [context]`. Researches prospect online, identifies pain points, drafts personalized email, saves to `clients/{slug}/emails/` and creates Gmail draft.
+- Updated CLAUDE.md: added all three agents to Blueprints Built table, added `.claude/agents/` to file map.
 
 ## Open Tasks
 - Reply to Sami — Cedar Wealth Advisory **[OVERDUE]**
@@ -83,3 +83,6 @@
 | Weekly pipeline review | blueprints/weekly-pipeline-review.md | None (Gmail MCP — runs Mondays 08:30 GMT+1) |
 | LinkedIn content batch | blueprints/linkedin-content-batch.md | None (WebSearch — runs Wednesdays 09:00 GMT+1) |
 | Monthly business health report | blueprints/monthly-health-report.md | equipment/health_report_pdf.py + Drive MCP (runs 1st of month 09:00 GMT+1) |
+| Research Agent | .claude/agents/research-agent.md | equipment/research_pdf.py + optional Drive/Gmail MCPs |
+| Code Review Agent | .claude/agents/code-review-agent.md | equipment/code_review_pdf.py |
+| Lead Outreach Agent | .claude/agents/lead-outreach-agent.md | WebSearch/WebFetch + Gmail MCP |
