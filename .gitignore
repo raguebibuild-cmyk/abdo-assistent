@@ -1,12 +1,22 @@
+# Credentials — never commit these
 .env
 .mcp.json
-CLAUDE.local.md
-.claude/settings.local.json
-node_modules/
-.tmp/
 credentials.json
 token.json
+
+# Claude Code local overrides
+CLAUDE.local.md
+.claude/settings.local.json
+
+# Dependencies
+node_modules/
+
+# Temporary files and generated outputs
+.tmp/
+.trigger
+archive/tmp-outputs/
+reports/
+
+# Python
 *.pyc
 __pycache__/
-
-.trigger
