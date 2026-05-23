@@ -21,6 +21,7 @@ reports/
 *.pyc
 __pycache__/
 
-# Office temp/lock files
+# Office temp/lock files and root-level Word docs
 ~$*
 *.tmp
+Security Audit.docx
